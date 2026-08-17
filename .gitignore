@@ -1,0 +1,60 @@
+__pycache__/
+.agents/
+
+# Debug / test scripts
+_debug_*.py
+_test_*.py
+test_*.py
+check_*.py
+debug_*.py
+
+# Experimental / analysis scripts
+validate_india.py
+explore_india.py
+ablation_ap_ratio.py
+predict.py
+shap_noap_figure.py
+partial_dependence_plots.py
+check_datasets.py
+
+# Extra model files (not needed for web app)
+main3_internal_xgb.pkl
+main3_portable_minimal.pkl
+main3_portable_rich.pkl
+main3_portable_weather.pkl
+stack_top5_model.pkl
+
+# Result CSVs (generated output)
+ablation_ap_ratio.csv
+agri_bangla_results.csv
+cv_comparison.csv
+external_validation_results.csv
+india_validation_results.csv
+main3_bangladesh_station_predictions.csv
+main3_india_predictions.csv
+main3_model_summary.csv
+model_comparison.csv
+per_crop_india_validation.csv
+summary_statistics.csv
+
+# All plot images
+*.png
+
+# Documentation / presentations
+*.pdf
+*.docx
+*.pptx
+
+# Extra markdown
+all_results.md
+methodology.md
+models_and_methodology.md
+results_and_discussion.md
+
+# Other
+Program.exe
+output.txt
+test_result.html
+src/
+notebooks/
+Papers/

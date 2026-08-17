@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="title">About — Crop Production Prediction System</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root { --bg: #f5f7f5; --card-bg: #fff; --text: #333; --text-muted: #555; --border: #e0e0e0; --nav-shadow: rgba(0,0,0,0.05); --heading: #1b5e20; }
+[data-theme="dark"] { --bg: #121212; --card-bg: #1e1e1e; --text: #e0e0e0; --text-muted: #aaa; --border: #333; --nav-shadow: rgba(0,0,0,0.3); --heading: #81c784; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; transition: background 0.3s, color 0.3s; }
+.navbar-custom { background: var(--card-bg) !important; box-shadow: 0 1px 6px var(--nav-shadow); padding: 12px 0; }
+.navbar-custom .navbar-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.1rem; color: #1b5e20 !important; letter-spacing: -0.01em; }
+[data-theme="dark"] .navbar-custom .navbar-brand { color: #81c784 !important; }
+.navbar-custom .brand-logo { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #1b5e20, #388e3c); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; }
+.nav-link { font-weight: 500; color: #444 !important; padding: 6px 16px !important; font-size: 0.92rem; position: relative; }
+.nav-link:hover { color: #1b5e20 !important; }
+.nav-link.active { color: #1b5e20 !important; }
+.nav-link.active::after { content: ''; position: absolute; bottom: 0; left: 16px; right: 16px; height: 2px; background: #1b5e20; border-radius: 1px; }
+[data-theme="dark"] .nav-link { color: #bbb !important; }
+[data-theme="dark"] .nav-link:hover, [data-theme="dark"] .nav-link.active { color: #81c784 !important; }
+[data-theme="dark"] .nav-link.active::after { background: #81c784; }
+.nav-icon-btn { background: none; border: none; color: #555; font-size: 1.2rem; padding: 6px 10px; cursor: pointer; border-radius: 6px; transition: background 0.2s; line-height: 1; }
+.nav-icon-btn:hover { background: #e8f5e9; color: #1b5e20; }
+[data-theme="dark"] .nav-icon-btn { color: #bbb; }
+[data-theme="dark"] .nav-icon-btn:hover { background: #1a2e1a; color: #81c784; }
+.btn-get-started { background: #1b5e20; color: #fff !important; border: none; padding: 8px 22px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; box-shadow: 0 2px 8px rgba(27,94,32,0.2); transition: background 0.2s; text-decoration: none; }
+.btn-get-started:hover { background: #0d3b0f; color: #fff !important; }
+.container-main { max-width: 800px; margin: 40px auto; padding: 0 24px; flex: 1; }
+.card-custom { background: var(--card-bg); border-radius: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); padding: 36px; border: none; }
+h1 { font-size: 1.8rem; font-weight: 800; color: var(--heading); margin-bottom: 20px; }
+p { font-size: 0.95rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 16px; }
+[data-theme="dark"] .text-muted { color: #aaa !important; }
+[data-theme="dark"] hr { border-color: #333; }
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-custom">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <span class="brand-logo">&#127793;</span>
+      <span data-i18n="brand">Crop Production Prediction System</span>
+    </a>
+    <div class="d-flex align-items-center gap-1 order-lg-last ms-auto ms-lg-0">
+      <button class="nav-icon-btn" id="langToggleBtn" title="বাংলা">&#127760;</button>
+      <button class="nav-icon-btn" id="themeToggleBtn" title="Toggle theme">&#9789;</button>
+      <button class="navbar-toggler ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link" href="/" data-i18n="home">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/prediction" data-i18n="prediction">Prediction</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/about" data-i18n="about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact" data-i18n="contact">Contact</a></li>
+      </ul>
+      <a class="btn-get-started" href="/prediction">&#8594; Get Started</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container-main">
+  <div class="card-custom">
+    <h1 data-i18n="about_heading">About the Project</h1>
+    <p data-i18n="about_intro">The <strong>Crop Yield Prediction System</strong> is a machine learning-based web application developed to estimate crop yield (tonnes per hectare) across Bangladesh using agricultural, climatic, and geographical information.</p>
+    <p data-i18n="about_data">The system uses a <strong>tuned XGBoost Regressor</strong> trained on the SPAS dataset, which contains <strong>4,596 records</strong> covering <strong>74 crop varieties</strong> across all <strong>64 districts</strong> of Bangladesh and three agricultural seasons (Kharif 1, Kharif 2, and Rabi).</p>
+    <p data-i18n="about_perf">The model achieves strong predictive performance through careful feature engineering, categorical encoding, and hyperparameter tuning. The system also provides <strong>SHAP-based interpretability</strong> to help users understand which factors drive each prediction.</p>
+    <p data-i18n="about_stack">An <strong>Advanced Stacking Ensemble</strong> is also available, combining Random Forest, Gradient Boosting, XGBoost, and Ridge regression for improved accuracy. Both models include confidence intervals and detailed feature importance analysis.</p>
+    <p data-i18n="about_audience">This application is designed for researchers, agricultural analysts, extension officers, and policymakers who need quick, data-driven yield estimates for planning and decision-making.</p>
+    <a href="/prediction" class="btn-get-started d-inline-flex mt-2">&#8594; Start Prediction</a>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(function() {
+  var theme = localStorage.getItem("theme") || "light";
+  document.documentElement.setAttribute("data-theme", theme);
+  var themeBtn = document.getElementById("themeToggleBtn");
+  if (themeBtn) {
+    themeBtn.innerHTML = theme === "dark" ? "\u{1F31E}" : "\u{1F319}";
+    themeBtn.addEventListener("click", function() {
+      var cur = document.documentElement.getAttribute("data-theme");
+      var next = cur === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("theme", next);
+      this.innerHTML = next === "dark" ? "\u{1F31E}" : "\u{1F319}";
+    });
+  }
+  var lang = localStorage.getItem("lang") || "en";
+  var langBtn = document.getElementById("langToggleBtn");
+  var i18n = {
+    en: { title: "About — Crop Production Prediction System", brand: "Crop Production Prediction System", home: "Home", prediction: "Prediction", about: "About", contact: "Contact", about_heading: "About the Project", about_intro: "The <strong>Crop Yield Prediction System</strong> is a machine learning-based web application developed to estimate crop yield (tonnes per hectare) across Bangladesh using agricultural, climatic, and geographical information.", about_data: "The system uses a <strong>tuned XGBoost Regressor</strong> trained on the SPAS dataset, which contains <strong>4,596 records</strong> covering <strong>74 crop varieties</strong> across all <strong>64 districts</strong> of Bangladesh and three agricultural seasons (Kharif 1, Kharif 2, and Rabi).", about_perf: "The model achieves strong predictive performance through careful feature engineering, categorical encoding, and hyperparameter tuning. The system also provides <strong>SHAP-based interpretability</strong> to help users understand which factors drive each prediction.", about_stack: "An <strong>Advanced Stacking Ensemble</strong> is also available, combining Random Forest, Gradient Boosting, XGBoost, and Ridge regression for improved accuracy. Both models include confidence intervals and detailed feature importance analysis.", about_audience: "This application is designed for researchers, agricultural analysts, extension officers, and policymakers who need quick, data-driven yield estimates for planning and decision-making." },
+    bn: { title: "\u09B8\u09AE\u09CD\u09AA\u09B0\u09CD\u0995\u09C7 — \u09AB\u09B8\u09B2\u09C7\u09B0 \u09AB\u09B2\u09A8 \u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8 \u09AA\u09A6\u09CD\u09A7\u09A4\u09BF", brand: "\u09AB\u09B2\u09A8 \u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8 \u09AA\u09A6\u09CD\u09A7\u09A4\u09BF", home: "\u09B9\u09CB\u09AE", prediction: "\u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8", about: "\u09B8\u09AE\u09CD\u09AA\u09B0\u09CD\u0995\u09C7", contact: "\u09AF\u09CB\u0997\u09BE\u09AF\u09CB\u0997", about_heading: "\u09AA\u09CD\u09B0\u0995\u09B2\u09CD\u09AA \u09B8\u09AE\u09CD\u09AA\u09B0\u09CD\u0995\u09C7", about_intro: "\u09AB\u09B8\u09B2\u09C7\u09B0 \u09AB\u09B2\u09A8 \u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8 \u09AA\u09A6\u09CD\u09A7\u09A4\u09BF \u098F\u0995\u099F\u09BF \u09AE\u09C7\u09B6\u09BF\u09A8 \u09B2\u09BE\u09B0\u09CD\u09A8\u09BF\u0982 \u09AD\u09BF\u09A4\u09CD\u09A4\u09BF\u0995 \u0993\u09AF\u09BC\u09C7\u09AC \u0985\u09CD\u09AF\u09BE\u09AA\u09B2\u09BF\u0995\u09C7\u09B6\u09A8 \u09AF\u09BE \u0995\u09C3\u09B7\u09BF, \u0986\u09AC\u09B9\u09BE\u09DF\u09BE \u0993 \u09AD\u09CC\u0997\u09CB\u09B2\u09BF\u0995 \u09A4\u09A5\u09CD\u09AF \u09AC\u09CD\u09AF\u09AC\u09B9\u09BE\u09B0 \u0995\u09B0\u09C7 \u09AC\u09BE\u0982\u09B2\u09BE\u09A6\u09C7\u09B6\u09C7 \u09AB\u09B2\u09A8 \u0986\u09A8\u09CD\u09AE\u09BE\u09A8 \u0995\u09B0\u09C7\u0964", about_data: "\u09B8\u09BF\u09B8\u09CD\u099F\u09C7\u09AE\u099F\u09BF SPAS \u09A1\u09BE\u099F\u09BE\u09B8\u09C7\u099F\u09C7 \u09AA\u09CD\u09B0\u09B6\u09BF\u0995\u09CD\u09B7\u09BF\u09A4 \u098F\u0995\u099F\u09BF XGBoost \u09B0\u09BF\u0997\u09CD\u09B0\u09C7\u09B6\u09B0 \u09AC\u09CD\u09AF\u09AC\u09B9\u09BE\u09B0 \u0995\u09B0\u09C7, \u09AF\u09BE\u09A4\u09C7 74 \u09A7\u09B0\u09A8\u09C7\u09B0 \u09AB\u09B8\u09B2 \u098F\u09AC\u0982 64 \u099C\u09C7\u09B2\u09BE\u09B0 \u09A4\u09A5\u09CD\u09AF \u0985\u09A8\u09CD\u09A4\u09B0\u09CD\u09AD\u09C1\u0995\u09CD\u09A4\u0964", about_perf: "\u09AE\u09A1\u09C7\u09B2\u099F\u09BF \u09AC\u09C8\u09B6\u09BF\u09B7\u09CD\u099F\u09CD\u09AF \u0987\u099E\u09CD\u099C\u09BF\u09A8\u09BF\u09DF\u09BE\u09B0\u09BF\u0982, \u0995\u09CD\u09AF\u09BE\u099F\u09C7\u0997\u09CB\u09B0\u09BF\u0995\u09CD\u09AF\u09BE\u09B2 \u098F\u09A8\u0995\u09CB\u09A1\u09BF\u0982 \u098F\u09AC\u0982 \u09B9\u09BE\u0987\u09AA\u09BE\u09B0\u09AA\u09BE\u09B0\u09BE\u09AE\u09BF\u099F\u09BE\u09B0 \u099F\u09BF\u0989\u09A8\u09BF\u0982\u09DF\u09C7\u09B0 \u09AE\u09BE\u09A7\u09CD\u09AF\u09AE\u09C7 \u09B6\u0995\u09CD\u09A4\u09BF\u09B6\u09BE\u09B2\u09C0 \u09AD\u09BE\u09AC\u09BF\u09A4\u09AC\u09CD\u09AF\u0995\u09BE\u09B0\u09C0 \u0995\u09BE\u09B0\u09CD\u09AF\u0995\u09CD\u09B7\u09AE\u09A4\u09BE \u0985\u09B0\u09CD\u099C\u09A8 \u0995\u09B0\u09C7\u0964", about_stack: "\u098F\u0995\u099F\u09BF Advanced Stacking Ensemble-\u0993 \u0989\u09AA\u09B2\u09AC\u09CD\u09A7, \u09AF\u09BE Random Forest, Gradient Boosting, XGBoost \u098F\u09AC\u0982 Ridge \u09B0\u09BF\u0997\u09CD\u09B0\u09C7\u09B6\u09A8\u0995\u09C7 \u09B8\u09AE\u09AC\u09C7\u09A4 \u0995\u09B0\u09C7\u0964", about_audience: "\u098F\u0987 \u0985\u09CD\u09AF\u09BE\u09AA\u09B2\u09BF\u0995\u09C7\u09B6\u09A8\u099F\u09BF \u0997\u09AC\u09C7\u09B7\u0995, \u0995\u09C3\u09B7\u09BF \u09AC\u09BF\u09B6\u09CD\u09B2\u09C7\u09B7\u0995, \u09AA\u09CD\u09B0\u09B8\u09BE\u09B0\u09A3 \u0995\u09B0\u09CD\u09AE\u0995\u09B0\u09CD\u09A4\u09BE \u098F\u09AC\u0982 \u09A8\u09C0\u09A4\u09BF \u09A8\u09BF\u09B0\u09CD\u09A7\u09BE\u09B0\u0995\u09A6\u09C7\u09B0 \u099C\u09A8\u09CD\u09AF \u09A1\u09BF\u099C\u09BE\u0987\u09A8 \u0995\u09B0\u09BE \u09B9\u09DF\u09C7\u099B\u09C7\u0964" }
+  };
+  function applyLang(l) {
+    localStorage.setItem("lang", l);
+    var t = i18n[l] || i18n.en;
+    document.querySelectorAll("[data-i18n]").forEach(function(el) {
+      var key = el.getAttribute("data-i18n");
+      if (t[key] !== undefined) el.innerHTML = t[key];
+    });
+    if (langBtn) langBtn.title = l === "bn" ? "English" : "\u09AC\u09BE\u0982\u09B2\u09BE";
+  }
+  applyLang(lang);
+  if (langBtn) langBtn.addEventListener("click", function() {
+    applyLang(localStorage.getItem("lang") === "bn" ? "en" : "bn");
+  });
+})();
+</script>
+</body>
+</html>

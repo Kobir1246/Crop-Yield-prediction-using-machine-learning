@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="title">Crop Production Prediction System</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fff; --card-bg: #fff; --text: #333; --text-muted: #888;
+  --text-secondary: #777; --border: #e0e0e0; --nav-shadow: rgba(0,0,0,0.05);
+  --hero-bg: #fff; --features-bg: #fff; --feature-icon-bg: #e8f5e9;
+  --feature-title: #2d2d2d; --feature-desc: #888;
+  --footer-text: rgba(255,255,255,0.7);
+}
+[data-theme="dark"] {
+  --bg: #121212; --card-bg: #1e1e1e; --text: #e0e0e0; --text-muted: #aaa;
+  --text-secondary: #999; --border: #333; --nav-shadow: rgba(0,0,0,0.3);
+  --hero-bg: #121212; --features-bg: #1a1a1a; --feature-icon-bg: #1a2e1a;
+  --feature-title: #e0e0e0; --feature-desc: #aaa;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); transition: background 0.3s, color 0.3s; }
+
+/* Nav */
+.navbar-custom {
+  background: var(--card-bg) !important;
+  box-shadow: 0 1px 6px var(--nav-shadow);
+  padding: 12px 0;
+}
+.navbar-custom .navbar-brand {
+  display: flex; align-items: center; gap: 10px; font-weight: 700;
+  font-size: 1.1rem; color: #1b5e20 !important; letter-spacing: -0.01em;
+}
+[data-theme="dark"] .navbar-custom .navbar-brand { color: #81c784 !important; }
+.navbar-custom .brand-logo {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: linear-gradient(135deg, #1b5e20, #388e3c);
+  display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem;
+}
+.nav-link { font-weight: 500; color: #444 !important; padding: 6px 16px !important; font-size: 0.92rem; position: relative; }
+.nav-link:hover { color: #1b5e20 !important; }
+.nav-link.active { color: #1b5e20 !important; }
+.nav-link.active::after {
+  content: ''; position: absolute; bottom: 0; left: 16px; right: 16px;
+  height: 2px; background: #1b5e20; border-radius: 1px;
+}
+[data-theme="dark"] .nav-link { color: #bbb !important; }
+[data-theme="dark"] .nav-link:hover, [data-theme="dark"] .nav-link.active { color: #81c784 !important; }
+[data-theme="dark"] .nav-link.active::after { background: #81c784; }
+.nav-icon-btn {
+  background: none; border: none; color: #555;
+  font-size: 1.2rem; padding: 6px 10px; cursor: pointer;
+  border-radius: 6px; transition: background 0.2s; line-height: 1;
+}
+.nav-icon-btn:hover { background: #e8f5e9; color: #1b5e20; }
+[data-theme="dark"] .nav-icon-btn { color: #bbb; }
+[data-theme="dark"] .nav-icon-btn:hover { background: #1a2e1a; color: #81c784; }
+.btn-get-started {
+  background: #1b5e20; color: #fff !important; border: none;
+  padding: 8px 22px; border-radius: 8px; font-weight: 600; font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(27,94,32,0.2); transition: background 0.2s, transform 0.15s;
+}
+.btn-get-started:hover { background: #0d3b0f; transform: translateY(-1px); }
+
+/* Hero */
+.hero {
+  min-height: calc(100vh - 74px);
+  display: flex; align-items: center;
+  background: var(--hero-bg);
+}
+.hero-heading {
+  font-size: 3.2rem; font-weight: 900; line-height: 1.15;
+  color: #2d2d2d; letter-spacing: -0.03em;
+}
+[data-theme="dark"] .hero-heading { color: #e0e0e0; }
+.hero-heading .highlight { color: #1b5e20; }
+[data-theme="dark"] .hero-heading .highlight { color: #81c784; }
+.hero-sub { font-size: 1rem; color: var(--text-muted); margin-top: 8px; }
+.hero-divider {
+  display: flex; align-items: center; gap: 12px; margin: 20px 0;
+}
+.hero-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.hero-desc {
+  color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7;
+  max-width: 500px;
+}
+.btn-start-prediction {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #1b5e20; color: #fff; border: none;
+  padding: 14px 32px; border-radius: 10px; font-weight: 700; font-size: 1rem;
+  box-shadow: 0 4px 14px rgba(27,94,32,0.25);
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-start-prediction:hover { background: #0d3b0f; transform: translateY(-2px); color: #fff; }
+.hero-image-wrapper {
+  position: relative; height: 100%; min-height: 420px;
+  border-radius: 20px; overflow: hidden;
+}
+.hero-image-wrapper img {
+  width: 100%; height: 100%; object-fit: cover; border-radius: 20px;
+  display: block;
+}
+.hero-image-fade {
+  position: absolute; top: 0; left: 0; width: 40%; height: 100%;
+  background: linear-gradient(to right, var(--hero-bg), transparent);
+  pointer-events: none;
+}
+@media (max-width: 992px) {
+  .hero-heading { font-size: 2.2rem; }
+  .hero { min-height: auto; padding: 40px 0; }
+  .hero-image-wrapper { min-height: 280px; margin-top: 30px; }
+  .hero-image-fade { width: 20%; }
+}
+
+/* Features */
+.features {
+  padding: 60px 0; background: var(--features-bg);
+}
+.feature-card {
+  text-align: center; padding: 24px 16px; position: relative;
+}
+.feature-icon {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--feature-icon-bg); display: flex; align-items: center;
+  justify-content: center; margin: 0 auto 14px; font-size: 1.5rem;
+}
+.feature-title { font-size: 1.1rem; font-weight: 700; color: var(--feature-title); margin-bottom: 6px; }
+.feature-desc { font-size: 0.88rem; color: var(--feature-desc); line-height: 1.5; max-width: 260px; margin: 0 auto; }
+.feature-divider {
+  position: absolute; right: 0; top: 10%; height: 80%;
+  width: 1px; background: var(--border);
+}
+@media (max-width: 768px) { .feature-divider { display: none; } }
+
+/* Stats */
+.stats {
+  padding: 50px 0;
+  background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #388e3c 100%);
+  color: #fff;
+}
+.stats-grid { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; }
+.stat-item { text-align: center; flex: 1; min-width: 140px; padding: 10px; }
+.stat-number {
+  font-size: 2.6rem; font-weight: 900; line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.stat-label { font-size: 0.9rem; opacity: 0.8; margin-top: 4px; }
+.stat-icon { font-size: 1.4rem; margin-bottom: 6px; opacity: 0.7; }
+@media (max-width: 576px) {
+  .stat-number { font-size: 2rem; }
+  .stat-item { min-width: 100px; }
+}
+
+/* Footer */
+.footer {
+  background: #1b5e20; color: #fff; padding: 28px 0;
+}
+.footer-icon {
+  width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.4);
+  display: flex; align-items: center; justify-content: center; font-size: 1rem;
+}
+.footer-tagline { font-size: 0.85rem; color: rgba(255,255,255,0.7); }
+.footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
+[data-theme="dark"] .text-muted { color: #aaa !important; }
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-custom">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <span class="brand-logo">&#127793;</span>
+      <span data-i18n="brand">Crop Production Prediction System</span>
+    </a>
+    <div class="d-flex align-items-center gap-1 order-lg-last ms-auto ms-lg-0">
+      <button class="nav-icon-btn" id="langToggleBtn" title="বাংলা">&#127760;</button>
+      <button class="nav-icon-btn" id="themeToggleBtn" title="Toggle theme">&#9789;</button>
+      <button class="navbar-toggler ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link active" href="/" data-i18n="home">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/prediction" data-i18n="prediction">Prediction</a></li>
+        <li class="nav-item"><a class="nav-link" href="/about" data-i18n="about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact" data-i18n="contact">Contact</a></li>
+      </ul>
+      <a class="btn-get-started text-decoration-none" href="/prediction">
+        &#8594; Get Started
+      </a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <h1 class="hero-heading" data-i18n="hero_heading">Predict your<br>crops <span class="highlight">production</span></h1>
+        <p class="hero-sub" data-i18n="hero_sub">in reliable and safest way with our advanced model.</p>
+        <div class="hero-divider"><span style="color:#1b5e20;">&#127793;</span></div>
+        <p class="hero-desc" data-i18n="hero_desc">Our system predicts crop production using comprehensive data including crop type, weather patterns, and land area. Designed for farmers, researchers, and decision makers to plan ahead with confidence.</p>
+        <a href="/prediction" class="btn-start-prediction text-decoration-none mt-2" data-i18n="start_prediction">Start Prediction &#10140;</a>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-image-wrapper">
+          <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=900&q=80" alt="Agricultural fields">
+          <div class="hero-image-fade"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="container">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon">&#128737;</div>
+          <h3 class="feature-title" data-i18n="feat1_title">Reliable Predictions</h3>
+          <p class="feature-desc" data-i18n="feat1_desc">Predict dependable production estimates using advanced machine learning models trained on real agricultural data.</p>
+          <div class="feature-divider"></div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon">&#128200;</div>
+          <h3 class="feature-title" data-i18n="feat2_title">Better Planning</h3>
+          <p class="feature-desc" data-i18n="feat2_desc">Plan farming activities confidently with accurate yield forecasts and confidence intervals for every prediction.</p>
+          <div class="feature-divider"></div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon">&#128101;</div>
+          <h3 class="feature-title" data-i18n="feat3_title">For Everyone</h3>
+          <p class="feature-desc" data-i18n="feat3_desc">Suitable for farmers, students, researchers, and agricultural planners. Simple interface, powerful results.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-icon">&#127758;</div>
+        <div class="stat-number"><span class="stat-count" data-target="64">0</span></div>
+        <div class="stat-label" data-i18n="stat_districts">Districts Covered</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon">&#127793;</div>
+        <div class="stat-number"><span class="stat-count" data-target="74">0</span></div>
+        <div class="stat-label" data-i18n="stat_crops">Crops Supported</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon">&#129302;</div>
+        <div class="stat-number"><span class="stat-count" data-target="2">0</span></div>
+        <div class="stat-label" data-i18n="stat_models">ML Models</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon">&#127779;</div>
+        <div class="stat-number"><span class="stat-count" data-target="3">0</span></div>
+        <div class="stat-label" data-i18n="stat_seasons">Growing Seasons</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-4 text-center text-md-start mb-2 mb-md-0">
+        <div class="d-flex align-items-center gap-2 justify-content-center justify-content-md-start">
+          <span class="footer-icon">&#128339;</span>
+          <span class="footer-copy" data-i18n="footer_copy">&copy; 2026 Crop Production Prediction System</span>
+        </div>
+      </div>
+      <div class="col-md-4 text-center mb-2 mb-md-0">
+        <span class="footer-tagline" data-i18n="footer_tagline">Helping you make better decisions for a better harvest.</span>
+      </div>
+      <div class="col-md-4 text-center text-md-end">
+        <span style="color:rgba(255,255,255,0.3); font-size:1.3rem;">&#127793;</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(function() {
+  // Theme
+  var theme = localStorage.getItem("theme") || "light";
+  document.documentElement.setAttribute("data-theme", theme);
+  var themeBtn = document.getElementById("themeToggleBtn");
+  function updateThemeIcon(t) { themeBtn.innerHTML = t === "dark" ? "\u{1F31E}" : "\u{1F319}"; }
+  updateThemeIcon(theme);
+  if (themeBtn) themeBtn.addEventListener("click", function() {
+    var cur = document.documentElement.getAttribute("data-theme");
+    var next = cur === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+    updateThemeIcon(next);
+  });
+
+  // Language
+  var lang = localStorage.getItem("lang") || "en";
+  var langBtn = document.getElementById("langToggleBtn");
+  var i18n = {
+    en: { title: "Crop Production Prediction System", brand: "Crop Production Prediction System", home: "Home", prediction: "Prediction", about: "About", contact: "Contact", hero_heading: "Predict your<br>crops <span class=\"highlight\">production</span>", hero_sub: "in reliable and safest way with our advanced model.", hero_desc: "Our system predicts crop production using comprehensive data including crop type, weather patterns, and land area. Designed for farmers, researchers, and decision makers to plan ahead with confidence.", start_prediction: "Start Prediction \u279c", feat1_title: "Reliable Predictions", feat1_desc: "Predict dependable production estimates using advanced machine learning models trained on real agricultural data.", feat2_title: "Better Planning", feat2_desc: "Plan farming activities confidently with accurate yield forecasts and confidence intervals for every prediction.", feat3_title: "For Everyone", feat3_desc: "Suitable for farmers, students, researchers, and agricultural planners. Simple interface, powerful results.", stat_districts: "Districts Covered", stat_crops: "Crops Supported", stat_models: "ML Models", stat_seasons: "Growing Seasons", footer_copy: "\u00a9 2026 Crop Production Prediction System", footer_tagline: "Helping you make better decisions for a better harvest." },
+    bn: { title: "\u09AB\u09B8\u09B2\u09C7\u09B0 \u09AB\u09B2\u09A8 \u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8 \u09AA\u09A6\u09CD\u09A7\u09A4\u09BF", brand: "\u09AB\u09B2\u09A8 \u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8 \u09AA\u09A6\u09CD\u09A7\u09A4\u09BF", home: "\u09B9\u09CB\u09AE", prediction: "\u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8", about: "\u09B8\u09AE\u09CD\u09AA\u09B0\u09CD\u0995\u09C7", contact: "\u09AF\u09CB\u0997\u09BE\u09AF\u09CB\u0997", hero_heading: "\u0986\u09AA\u09A8\u09BE\u09B0 <br>\u09AB\u09B8\u09B2\u09C7\u09B0 <span class=\"highlight\">\u0989\u09CE\u09AA\u09BE\u09A6\u09A8</span> \u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8 \u0995\u09B0\u09C1\u09A8", hero_sub: "\u0986\u09AE\u09BE\u09A6\u09C7\u09B0 \u0989\u09A8\u09CD\u09A8\u09A4 \u09AE\u09A1\u09C7\u09B2\u09C7\u09B0 \u09B8\u09BE\u09A5\u09C7 \u09A8\u09BF\u09B0\u09CD\u09AD\u09B0\u09AF\u09CB\u0997\u09CD\u09AF \u098F\u09AC\u0982 \u09A8\u09BF\u09B0\u09BE\u09AA\u09A6 \u0989\u09AA\u09BE\u09DF\u09C7\u0964", hero_desc: "\u0986\u09AE\u09BE\u09A6\u09C7\u09B0 \u09B8\u09BF\u09B8\u09CD\u099F\u09C7\u09AE \u09AB\u09B8\u09B2\u09C7\u09B0 \u09A7\u09B0\u09A8, \u0986\u09AC\u09B9\u09BE\u09DF\u09BE\u09B0 \u09AA\u09A4\u09CD\u09B0\u09BE\u0999\u09CD\u0995\u09BF \u09AC\u09BF\u09B6\u09CD\u09B2\u09C7\u09B7\u09A3 \u0995\u09B0\u09C7 \u09AB\u09B2\u09A8 \u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8 \u0995\u09B0\u09C7\u0964", start_prediction: "\u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8 \u09B6\u09C1\u09B0\u09C1 \u0995\u09B0\u09C1\u09A8 \u279c", feat1_title: "\u09AC\u09BF\u09B6\u09CD\u09AC\u09B8\u09CD\u09A4 \u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8", feat1_desc: "\u09AA\u09CD\u09B0\u0995\u09C3\u09A4 \u0995\u09C3\u09B7\u09BF \u09A4\u09A5\u09CD\u09AF\u09C7 \u09AA\u09CD\u09B0\u09B6\u09BF\u0995\u09CD\u09B7\u09BF\u09A4 \u0989\u09A8\u09CD\u09A8\u09A4 \u09AE\u09C7\u09B6\u09BF\u09A8 \u09B2\u09BE\u09B0\u09CD\u09A8\u09BF\u0982 \u09AE\u09A1\u09C7\u09B2 \u09AC\u09CD\u09AF\u09AC\u09B9\u09BE\u09B0 \u0995\u09B0\u09C7 \u09A8\u09BF\u09B0\u09CD\u09AD\u09B0\u09AF\u09CB\u0997\u09CD\u09AF \u0989\u09CE\u09AA\u09BE\u09A6\u09A8 \u0986\u09A8\u09AE\u09BE\u09A8 \u09AA\u09CD\u09B0\u09A6\u09BE\u09A8 \u0995\u09B0\u09C7\u0964", feat2_title: "\u0989\u09A8\u09CD\u09A8\u09A4 \u09AA\u09B0\u09BF\u0995\u09B2\u09CD\u09AA\u09A8\u09BE", feat2_desc: "\u09B8\u09A0\u09BF\u0995 \u09AB\u09B2\u09A8 \u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8 \u098F\u09AC\u0982 \u0986\u09A4\u09CD\u09AE\u09AC\u09BF\u09B6\u09CD\u09AC\u09BE\u09B8 \u09AC\u09CD\u09AF\u09AC\u09A7\u09BE\u09A8 \u09B8\u09B9 \u0986\u09A4\u09CD\u09AE\u09AC\u09BF\u09B6\u09CD\u09AC\u09BE\u09B8\u09C7\u09B0 \u09B8\u09BE\u09A5\u09C7 \u0995\u09C3\u09B7\u09BF \u0995\u09BE\u09B0\u09CD\u09AF\u0995\u09B2\u09BE\u09AA \u09AA\u09B0\u09BF\u0995\u09B2\u09CD\u09AA\u09A8\u09BE \u0995\u09B0\u09C1\u09A8\u0964", feat3_title: "\u09B8\u09AC\u09BE\u09B0 \u099C\u09A8\u09CD\u09AF", feat3_desc: "\u0995\u09C3\u09B7\u0995, \u099B\u09BE\u09A4\u09CD\u09B0, \u0997\u09AC\u09C7\u09B7\u0995 \u098F\u09AC\u0982 \u0995\u09C3\u09B7\u09BF \u09AA\u09B0\u09BF\u0995\u09B2\u09CD\u09AA\u09A8\u09BE\u0995\u09BE\u09B0\u09C0\u09A6\u09C7\u09B0 \u099C\u09A8\u09CD\u09AF \u0989\u09AA\u09AF\u09CB\u0997\u09C0\u0964", footer_copy: "\u00a9 2026 \u09AB\u09B8\u09B2\u09C7\u09B0 \u09AB\u09B2\u09A8 \u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8 \u09AA\u09A6\u09CD\u09A7\u09A4\u09BF", stat_districts: "\u099C\u09C7\u09B2\u09BE \u09B8\u09AE\u09C2\u09B9", stat_crops: "\u09AB\u09B8\u09B2 \u09B8\u09AE\u09C2\u09B9", stat_models: "\u098F\u09AE\u098F\u09B2 \u09AE\u09A1\u09C7\u09B2", stat_seasons: "\u0989\u09CE\u09AA\u09BE\u09A6\u09A8 \u09AE\u09CC\u09B8\u09C1\u09AE", footer_tagline: "\u0989\u09A8\u09CD\u09A8\u09A4 \u09AB\u09B8\u09B2\u09C7\u09B0 \u099C\u09A8\u09CD\u09AF \u0989\u09A8\u09CD\u09A8\u09A4 \u09B8\u09BF\u09A6\u09CD\u09A7\u09BE\u09A8\u09CD\u09A4 \u09A8\u09BF\u09A4\u09C7 \u0986\u09AA\u09A8\u09BE\u0995\u09C7 \u09B8\u09BE\u09B9\u09BE\u09AF\u09CD\u09AF \u0995\u09B0\u09C7\u0964" }
+  };
+  function applyLang(l) {
+    localStorage.setItem("lang", l);
+    var t = i18n[l] || i18n.en;
+    document.querySelectorAll("[data-i18n]").forEach(function(el) {
+      var key = el.getAttribute("data-i18n");
+      if (t[key] !== undefined) el.innerHTML = t[key];
+    });
+    if (langBtn) langBtn.title = l === "bn" ? "English" : "\u09AC\u09BE\u0982\u09B2\u09BE";
+  }
+  applyLang(lang);
+  if (langBtn) langBtn.addEventListener("click", function() {
+    var cur = localStorage.getItem("lang") || "en";
+    applyLang(cur === "en" ? "bn" : "en");
+  });
+
+  // Count-up animation
+  var statEls = document.querySelectorAll(".stat-count");
+  if (statEls.length && "IntersectionObserver" in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          var target = parseInt(el.getAttribute("data-target"), 10);
+          if (isNaN(target)) return;
+          var start = 0, duration = 1500, startTime = null;
+          function step(ts) {
+            if (!startTime) startTime = ts;
+            var pct = Math.min((ts - startTime) / duration, 1);
+            var eased = 1 - Math.pow(1 - pct, 3);
+            el.textContent = Math.floor(eased * target);
+            if (pct < 1) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    statEls.forEach(function(el) { observer.observe(el); });
+  }
+})();
+</script>
+</body>
+</html>

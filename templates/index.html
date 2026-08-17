@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title data-i18n="page_title">Crop Yield Prediction — Bangladesh</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green-900: #0d3b0f;
+  --green-700: #1b5e20;
+  --green-500: #388e3c;
+  --green-300: #81c784;
+  --green-100: #e8f5e9;
+  --green-50: #f1f8e9;
+  --bg: #f5f7f5;
+  --card-bg: #fff;
+  --text: #333;
+  --text-muted: #666;
+  --text-secondary: #888;
+  --border: #d0d9d0;
+  --shadow: rgba(0,0,0,0.06);
+  --shadow-hover: rgba(0,0,0,0.10);
+  --nav-start: #1b5e20;
+  --nav-end: #388e3c;
+  --result-bg: #f1f8e9;
+  --input-bg: #fff;
+  --print-bg: #fff;
+  --shap-neg: #d32f2f;
+  --valid-color: #28a745;
+}
+
+[data-theme="dark"] {
+  --bg: #121212;
+  --card-bg: #1e1e1e;
+  --text: #e0e0e0;
+  --text-muted: #aaa;
+  --text-secondary: #888;
+  --border: #333;
+  --shadow: rgba(0,0,0,0.3);
+  --shadow-hover: rgba(0,0,0,0.5);
+  --nav-start: #0d3b0f;
+  --nav-end: #1b5e20;
+  --result-bg: #1a2e1a;
+  --input-bg: #2a2a2a;
+  --print-bg: #fff;
+  --valid-color: #4caf50;
+  --shap-neg: #ef5350;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.3s, color 0.3s;
+  padding-top: 70px;
+}
+.navbar-custom {
+  background: #fff !important;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+  padding: 12px 0; min-height: 62px;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1030;
+}
+[data-theme="dark"] .navbar-custom { background: #1a1a1a !important; box-shadow: 0 1px 6px rgba(0,0,0,0.3); }
+.navbar-custom .navbar-brand {
+  display: flex; align-items: center; gap: 10px; font-weight: 700;
+  font-size: 1.1rem; color: #1b5e20 !important; letter-spacing: -0.01em;
+}
+[data-theme="dark"] .navbar-custom .navbar-brand { color: #81c784 !important; }
+.navbar-custom .brand-logo {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: linear-gradient(135deg, #1b5e20, #388e3c);
+  display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem;
+}
+.nav-link { font-weight: 500; color: #444 !important; padding: 6px 16px !important; font-size: 0.92rem; position: relative; }
+.nav-link:hover { color: #1b5e20 !important; }
+.nav-link.active { color: #1b5e20 !important; }
+.nav-link.active::after {
+  content: ''; position: absolute; bottom: 0; left: 16px; right: 16px;
+  height: 2px; background: #1b5e20; border-radius: 1px;
+}
+[data-theme="dark"] .nav-link { color: #bbb !important; }
+[data-theme="dark"] .nav-link:hover, [data-theme="dark"] .nav-link.active { color: #81c784 !important; }
+[data-theme="dark"] .nav-link.active::after { background: #81c784; }
+.nav-icon-btn {
+  background: none; border: none; color: #555;
+  font-size: 1.2rem; padding: 6px 10px; cursor: pointer;
+  border-radius: 6px; transition: background 0.2s; line-height: 1;
+}
+.nav-icon-btn:hover { background: #e8f5e9; color: #1b5e20; }
+[data-theme="dark"] .nav-icon-btn { color: #bbb; }
+[data-theme="dark"] .nav-icon-btn:hover { background: #1a2e1a; color: #81c784; }
+.btn-get-started-nav {
+  background: #1b5e20; color: #fff !important; border: none;
+  padding: 8px 22px; border-radius: 8px; font-weight: 600; font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(27,94,32,0.2); transition: background 0.2s;
+  text-decoration: none; white-space: nowrap;
+}
+.btn-get-started-nav:hover { background: #0d3b0f; color: #fff !important; }
+[data-theme="dark"] .btn-get-started-nav { background: #2e7d32; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+[data-theme="dark"] .btn-get-started-nav:hover { background: #1b5e20; }
+.card {
+  border: none; border-radius: 14px; box-shadow: 0 4px 20px var(--shadow);
+  transition: box-shadow 0.3s, transform 0.3s, background 0.3s;
+  background: var(--card-bg);
+  animation: fadeSlideUp 0.45s ease both;
+}
+.card:nth-child(2) { animation-delay: 0.08s; }
+.card:nth-child(3) { animation-delay: 0.16s; }
+.card:hover { box-shadow: 0 6px 28px var(--shadow-hover); transform: translateY(-2px); }
+.card-header {
+  background: var(--green-50); border-bottom: 2px solid var(--green-500);
+  border-radius: 14px 14px 0 0 !important;
+  font-weight: 600; color: var(--green-700);
+  transition: background 0.3s;
+}
+[data-theme="dark"] .card-header { background: #1a2e1a; color: var(--green-300); }
+.btn-primary {
+  background: var(--green-500); border: none; font-weight: 600;
+  padding: 12px 28px; border-radius: 8px; transition: background 0.2s, transform 0.15s;
+}
+.btn-primary:hover { background: var(--green-700); transform: scale(1.01); }
+.btn-primary:active { transform: scale(0.98); }
+[data-theme="dark"] .btn-primary { background: var(--green-700); }
+[data-theme="dark"] .btn-primary:hover { background: var(--green-500); }
+.btn-outline-success {
+  border-color: var(--green-500); color: var(--green-500); font-weight: 500;
+  padding: 10px 20px;
+}
+.btn-outline-success:hover { background: var(--green-500); color: #fff; }
+.result-box {
+  background: var(--result-bg); border-left: 5px solid var(--green-500);
+  border-radius: 10px; padding: 20px;
+  animation: fadeSlideUp 0.5s ease both;
+  transition: background 0.3s;
+}
+.result-value { font-size: 2.4rem; font-weight: 800; color: var(--green-700); }
+[data-theme="dark"] .result-value { color: var(--green-300); }
+.shap-bar { height: 18px; border-radius: 4px; background: var(--green-500); transition: width 0.6s ease; }
+.shap-neg { background: var(--shap-neg); }
+.form-label { font-weight: 500; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.25rem; }
+.form-select, .form-control {
+  border-radius: 8px; font-size: 0.9rem; border: 1.5px solid var(--border);
+  background: var(--input-bg); color: var(--text);
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.3s, color 0.3s;
+  min-height: 42px;
+}
+.form-select:focus, .form-control:focus {
+  border-color: var(--green-500); box-shadow: 0 0 0 3px rgba(56,142,60,0.15);
+}
+.form-control.is-valid {
+  border-color: var(--valid-color);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat; background-position: right 10px center; background-size: 18px;
+  padding-right: 36px;
+}
+.form-control.is-invalid { background-position: right 10px center; padding-right: 36px; }
+.invalid-feedback { font-size: 0.78rem; display: block; color: #dc3545; }
+.valid-feedback { font-size: 0.78rem; display: block; color: var(--valid-color); }
+.spinner-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.35);
+  display: none; align-items: center; justify-content: center; z-index: 9999;
+  backdrop-filter: blur(3px);
+}
+.spinner-overlay.active { display: flex; }
+.spinner-box {
+  background: var(--card-bg); border-radius: 16px; padding: 36px 44px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18); text-align: center;
+  animation: fadeSlideUp 0.3s ease;
+}
+.spinner-border { width: 3rem; height: 3rem; color: var(--green-500); }
+#spinnerStage { min-height: 1.4em; }
+.section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary); margin-bottom: 0.3rem; }
+.alert { border-radius: 10px; }
+[data-theme="dark"] .text-muted { color: #aaa !important; }
+[data-theme="dark"] .text-secondary { color: #999 !important; }
+[data-theme="dark"] .border, [data-theme="dark"] hr { border-color: #333 !important; }
+[data-theme="dark"] .table { color: #e0e0e0; }
+.result-modern { padding: 4px 0; }
+.result-value-box { padding: 12px 0; }
+[data-theme="dark"] .result-modern,
+[data-theme="dark"] .result-modern * { color: var(--text) !important; }
+[data-theme="dark"] .result-modern h4 { color: var(--green-300) !important; }
+[data-theme="dark"] .result-modern .display-5 { color: var(--green-300) !important; }
+[data-theme="dark"] .result-modern .progress-bar { background: var(--green-300) !important; }
+[data-theme="dark"] .result-modern .small.text-muted,
+[data-theme="dark"] .result-modern .text-muted { color: var(--text-muted) !important; }
+[data-theme="dark"] .result-modern .btn-outline-success { color: var(--green-300) !important; border-color: var(--green-300) !important; }
+[data-theme="dark"] .result-modern .btn-outline-success:hover { background: var(--green-300) !important; color: #000 !important; }
+[data-theme="dark"] .result-modern hr { border-color: #333 !important; }
+[data-theme="dark"] .result-modern .fw-bold { color: var(--text) !important; }
+[data-theme="dark"] .alert-info { background: #1a2a3e; color: #b0d0ff; border-color: #335; }
+[data-theme="dark"] .heading-primary { color: var(--green-300) !important; }
+[data-theme="dark"] .bg-success { background-color: var(--green-700) !important; }
+[data-theme="dark"] .alert-danger { background: #3e1a1a; color: #ffb0b0; border-color: #661; }
+.lang-badge {
+  font-size: 0.7rem; padding: 2px 8px; border-radius: 10px;
+  background: rgba(255,255,255,0.15); color: #fff; cursor: pointer;
+  transition: background 0.2s; user-select: none;
+}
+.lang-badge:hover { background: rgba(255,255,255,0.25); }
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+.btn-primary.is-loading { animation: pulse 1s infinite; pointer-events: none; }
+@media (max-width: 992px) {
+  body { padding-top: 62px; }
+  .result-value { font-size: 1.8rem; }
+  .card { animation: none !important; }
+  .navbar-brand { font-size: 1.1rem; }
+  .nav-icon-btn { font-size: 1.1rem; padding: 4px 8px; }
+  .btn-primary { padding: 14px 28px; font-size: 1rem; }
+  .form-select, .form-control { min-height: 46px; font-size: 1rem; }
+  .container { padding-left: 12px; padding-right: 12px; }
+}
+@media (max-width: 576px) {
+  .container { padding-left: 8px; padding-right: 8px; }
+  .card-body { padding: 16px !important; }
+  .result-box { padding: 14px; }
+}
+
+/* Print styles */
+@media print {
+  body { background: #fff !important; color: #000 !important; padding-top: 0 !important; }
+  .navbar, .spinner-overlay, #quickFillSection, #aboutModelsSection, .btn-primary,
+  .btn-outline-success, #langToggleBtn, #themeToggleBtn, #printReportBtn, .navbar-toggler { display: none !important; }
+  .card { box-shadow: none !important; border: 1px solid #ddd !important; break-inside: avoid; animation: none !important; transform: none !important; }
+  .card-header { background: #f5f5f5 !important; color: #000 !important; border-bottom: 1px solid #ccc !important; }
+  .result-box { background: #f9fff9 !important; border-left: 3px solid #388e3c !important; }
+  .result-value { color: #1b5e20 !important; }
+  .form-control, .form-select { border-color: #ccc !important; background: #fff !important; color: #000 !important; }
+  .col-lg-4 { width: 100% !important; flex: 0 0 100% !important; max-width: 100% !important; }
+  .row-cols-1 > * { width: 100% !important; }
+  .container { max-width: 100% !important; }
+  .invalid-feedback, .valid-feedback, .is-valid { background-image: none !important; }
+  img[alt="SHAP"] { max-width: 60% !important; }
+  .print-only { display: block !important; }
+  body > *:not(.container) { display: none !important; }
+  .container > .row > .col-lg-4 { page-break-inside: avoid; }
+}
+.extreme-warning { font-weight: 500; }
+[data-theme="dark"] .extreme-warning { color: #ffc107 !important; }
+[data-theme="dark"] #historySection .table { color: var(--text); }
+[data-theme="dark"] #historySection .table td { border-color: #333; }
+#howToSection .card-body ol { padding-left: 1.2rem; }
+#howToSection .card-body li { font-size: 0.85rem; line-height: 1.6; }
+.print-only { display: none; }
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-custom">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <span class="brand-logo">&#127793;</span>
+      <span data-i18n="brand">Crop Production Prediction System</span>
+    </a>
+    <div class="d-flex align-items-center gap-1 order-lg-last ms-auto ms-lg-0">
+      <button class="nav-icon-btn" id="langToggleBtn" title="বাংলা" aria-label="Toggle language">&#127760;</button>
+      <button class="nav-icon-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle theme">&#9789;</button>
+      <button class="nav-icon-btn d-none d-md-inline" id="printReportBtn" title="Print report" aria-label="Print report" onclick="window.print()">&#128424;</button>
+      <button class="navbar-toggler ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link" href="/" data-i18n="home">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/prediction" data-i18n="prediction">Prediction</a></li>
+        <li class="nav-item"><a class="nav-link" href="/about" data-i18n="about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact" data-i18n="contact">Contact</a></li>
+      </ul>
+      <a class="btn-get-started-nav" href="/prediction" data-i18n="get_started">&#8594; Get Started</a>
+    </div>
+  </div>
+</nav>
+
+<div class="spinner-overlay" id="loadingOverlay">
+  <div class="spinner-box">
+    <div class="spinner-border mb-3" role="status"></div>
+    <h5 class="mb-1" data-i18n="spinner_title">Predicting yield&#8230;</h5>
+    <p class="text-muted small mb-0" id="spinnerStage" data-i18n="spinner_sub">Running models &amp; computing SHAP values</p>
+  </div>
+</div>
+
+<div class="container py-4">
+  <div class="d-flex flex-wrap align-items-center justify-content-between mb-2">
+    <div>
+      <h3 class="mb-0 heading-primary" style="font-weight:700;" data-i18n="heading">Crop Yield Prediction</h3>
+      <p class="text-muted small mb-0" data-i18n="subheading">Enter field parameters and select a model to predict crop yield in Bangladesh.</p>
+    </div>
+    <button class="btn btn-outline-success btn-sm d-md-none mt-1" onclick="window.print()" data-i18n="print_btn">&#128424; Print</button>
+  </div>
+
+  {% if error %}
+  <div class="alert alert-danger alert-dismissible fade show">{{ error }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+  {% endif %}
+
+  <div class="row g-4">
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-header"><span class="section-title" data-i18n="input_header">Input Parameters</span></div>
+        <div class="card-body">
+          <form id="predForm" method="POST" action="/prediction" novalidate>
+            <div class="mb-2">
+              <label class="form-label" data-i18n="model_label">Model</label>
+              <select class="form-select" name="model_choice" id="modelChoice" title="Select prediction model: XGBoost (faster) or Stacking Ensemble (more accurate)">
+                {% for mc in model_choices %}
+                <option value="{{ mc.id }}" {% if selected_model == mc.id %}selected{% endif %}>{{ mc.label[:60] }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="mb-2">
+              <label class="form-label" data-i18n="crop_label">Crop</label>
+              <select class="form-select{% if field_errors and field_errors.crop %} is-invalid{% endif %}" name="crop" id="cropSelect" required title="Select the crop variety you want to predict yield for">
+                <option value="" data-i18n="select_placeholder">— Select —</option>
+                {% for c in crops %}
+                <option value="{{ c }}" {% if form_data.crop == c %}selected{% endif %}>{{ c }}</option>
+                {% endfor %}
+              </select>
+              {% if field_errors and field_errors.crop %}<div class="invalid-feedback">{{ field_errors.crop }}</div>{% endif %}
+              <div class="valid-feedback"></div>
+            </div>
+            <div class="mb-2">
+              <label class="form-label" data-i18n="district_label">District</label>
+              <select class="form-select{% if field_errors and field_errors.district %} is-invalid{% endif %}" name="district" id="districtSelect" required title="Select the district where the crop is grown">
+                {% for d in districts %}
+                <option value="{{ d }}" {% if form_data.district == d %}selected{% endif %}>{{ d }}</option>
+                {% endfor %}
+              </select>
+              {% if field_errors and field_errors.district %}<div class="invalid-feedback">{{ field_errors.district }}</div>{% endif %}
+              <div class="valid-feedback"></div>
+            </div>
+            <div class="mb-2">
+              <label class="form-label" data-i18n="season_label">Season</label>
+              <select class="form-select{% if field_errors and field_errors.season %} is-invalid{% endif %}" name="season" id="seasonSelect" required title="Select the growing season (Kharif 1, Kharif 2, or Rabi)">
+                {% for s in seasons %}
+                <option value="{{ s }}" {% if form_data.season == s %}selected{% endif %}>{{ s }}</option>
+                {% endfor %}
+              </select>
+              {% if field_errors and field_errors.season %}<div class="invalid-feedback">{{ field_errors.season }}</div>{% endif %}
+              <div class="valid-feedback"></div>
+            </div>
+            <hr class="my-2">
+            <div class="mb-2">
+              <label class="form-label" data-i18n="area_label">Area (ha)</label>
+              <input class="form-control{% if field_errors and field_errors.area %} is-invalid{% endif %}" type="number" step="0.01" min="0.001" name="area" id="areaInput" value="{{ form_data.area or '' }}" required title="Total land area in hectares (1 ha = 2.47 acres)">
+              {% if field_errors and field_errors.area %}<div class="invalid-feedback">{{ field_errors.area }}</div>{% endif %}
+              <div class="valid-feedback"></div>
+            </div>
+            <div class="row g-2">
+              <div class="col-6">
+                <label class="form-label" data-i18n="min_temp_label">Min Temp (&#176;C)</label>
+                <input class="form-control{% if field_errors and field_errors.min_temp %} is-invalid{% endif %}" type="number" step="0.1" name="min_temp" id="minTempInput" value="{{ form_data.min_temp or '' }}" required title="Average minimum temperature during growing season (\u00b0C)">
+                {% if field_errors and field_errors.min_temp %}<div class="invalid-feedback">{{ field_errors.min_temp }}</div>{% endif %}
+                <div class="valid-feedback"></div>
+              </div>
+              <div class="col-6">
+                <label class="form-label" data-i18n="max_temp_label">Max Temp (&#176;C)</label>
+                <input class="form-control{% if field_errors and field_errors.max_temp %} is-invalid{% endif %}" type="number" step="0.1" name="max_temp" id="maxTempInput" value="{{ form_data.max_temp or '' }}" required title="Average maximum temperature during growing season (\u00b0C)">
+                {% if field_errors and field_errors.max_temp %}<div class="invalid-feedback">{{ field_errors.max_temp }}</div>{% endif %}
+                <div class="valid-feedback"></div>
+              </div>
+            </div>
+            <div class="mb-2">
+              <label class="form-label" data-i18n="avg_temp_label">Avg Temp (&#176;C)</label>
+              <input class="form-control{% if field_errors and field_errors.avg_temp %} is-invalid{% endif %}" type="number" step="0.1" name="avg_temp" id="avgTempInput" value="{{ form_data.avg_temp or '' }}" required title="Overall average temperature across the growing season">
+              {% if field_errors and field_errors.avg_temp %}<div class="invalid-feedback">{{ field_errors.avg_temp }}</div>{% endif %}
+              <div class="valid-feedback"></div>
+            </div>
+            <div class="row g-2">
+              <div class="col-6">
+                <label class="form-label" data-i18n="min_rh_label">Min RH (%)</label>
+                <input class="form-control{% if field_errors and field_errors.min_rh %} is-invalid{% endif %}" type="number" step="0.1" name="min_rh" id="minRhInput" value="{{ form_data.min_rh or '' }}" required title="Average minimum relative humidity (0-100%)">
+                {% if field_errors and field_errors.min_rh %}<div class="invalid-feedback">{{ field_errors.min_rh }}</div>{% endif %}
+                <div class="valid-feedback"></div>
+              </div>
+              <div class="col-6">
+                <label class="form-label" data-i18n="max_rh_label">Max RH (%)</label>
+                <input class="form-control{% if field_errors and field_errors.max_rh %} is-invalid{% endif %}" type="number" step="0.1" name="max_rh" id="maxRhInput" value="{{ form_data.max_rh or '' }}" required title="Average maximum relative humidity (0-100%)">
+                {% if field_errors and field_errors.max_rh %}<div class="invalid-feedback">{{ field_errors.max_rh }}</div>{% endif %}
+                <div class="valid-feedback"></div>
+              </div>
+            </div>
+            <div class="mb-2">
+              <label class="form-label" data-i18n="avg_humidity_label">Avg Humidity (%)</label>
+              <input class="form-control{% if field_errors and field_errors.avg_humidity %} is-invalid{% endif %}" type="number" step="0.1" name="avg_humidity" id="avgHumidityInput" value="{{ form_data.avg_humidity or '' }}" required title="Overall average humidity percentage during the season">
+              {% if field_errors and field_errors.avg_humidity %}<div class="invalid-feedback">{{ field_errors.avg_humidity }}</div>{% endif %}
+              <div class="valid-feedback"></div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" data-i18n="rainfall_label">Rainfall (mm)</label>
+              <input class="form-control{% if field_errors and field_errors.rainfall %} is-invalid{% endif %}" type="number" step="0.1" name="rainfall" id="rainfallInput" value="{{ form_data.rainfall or '' }}" required title="Total rainfall in millimetres during the growing season">
+              {% if field_errors and field_errors.rainfall %}<div class="invalid-feedback">{{ field_errors.rainfall }}</div>{% endif %}
+              <div class="valid-feedback"></div>
+            </div>
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary flex-fill" id="predictBtn" data-i18n="predict_btn">Predict Yield</button>
+              <button type="button" class="btn btn-outline-danger" id="clearBtn" data-i18n="clear_btn">Clear All</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-header"><span class="section-title" data-i18n="result_header">Prediction Result</span></div>
+        <div class="card-body">
+          {% if result %}
+          {% set model_rmse = XGB_RMSE if selected_model == "xgb" else STACK_RMSE %}
+          {% if model_rmse < 2.5 %}{% set conf_key = "confidence_high" %}{% set conf_emoji = "✅" %}
+          {% elif model_rmse < 3.5 %}{% set conf_key = "confidence_medium" %}{% set conf_emoji = "⚠️" %}
+          {% else %}{% set conf_key = "confidence_low" %}{% set conf_emoji = "❌" %}{% endif %}
+          <div class="result-modern">
+            <div class="text-center mb-3">
+              <div style="font-size:2rem;">&#127793;</div>
+              <h4 class="mb-0 fw-bold" data-i18n="result_heading">Crop Production Prediction</h4>
+            </div>
+            <div class="result-value-box text-center mb-3">
+              <small class="text-muted text-uppercase" style="font-size:0.75rem;letter-spacing:0.5px;" data-i18n="expected_yield">Expected Production</small>
+              <div class="result-value display-5 fw-bold my-1">{{ result.yield }} <small style="font-size:1.2rem;font-weight:500;color:var(--text-muted);">t/ha</small></div>
+              <div class="text-muted small" data-i18n="ci_text">95% CI: {{ result.ci_lo }} &ndash; {{ result.ci_hi }} t/ha</div>
+            </div>
+            <div class="d-flex justify-content-center gap-4 mb-3">
+              <div class="text-center">
+                <div class="fw-bold" style="font-size:1.3rem;">{{ result.yield * result.area|float|default(1) }}</div>
+                <small class="text-muted" data-i18n="total_production">Total (tonnes)</small>
+              </div>
+              <div class="text-center">
+                <span style="font-size:1.5rem;">{{ conf_emoji }}</span>
+                <div class="small fw-bold" data-i18n="{{ conf_key }}">High</div>
+                <small class="text-muted" data-i18n="confidence">Confidence</small>
+              </div>
+            </div>
+            {% if shap_data and shap_data|length > 0 %}
+            <hr>
+            <div class="mb-2">
+              <small class="text-muted fw-bold text-uppercase" style="font-size:0.7rem;letter-spacing:0.5px;" data-i18n="top_factors">Top Influencing Factors</small>
+              <div class="mt-1">
+              {% for s in shap_data[:3] %}
+                <div class="d-flex align-items-center mb-1">
+                  <span style="font-size:0.85rem;flex:1;">{{ s.name|clean_name }}</span>
+                  <div class="progress flex-fill mx-2" style="height:6px;max-width:100px;">
+                    {% set pct = (s.abs_value / shap_data[0].abs_value * 100) if shap_data[0].abs_value > 0 else 0 %}
+                    <div class="progress-bar {% if s.value < 0 %}shap-neg{% else %}bg-success{% endif %}" style="width:{{ pct|round }}%;"></div>
+                  </div>
+                </div>
+              {% endfor %}
+              </div>
+            </div>
+            {% endif %}
+            <hr>
+            <div class="row g-1 small">
+              <div class="col-4 text-muted" data-i18n="crop_result">Crop</div>
+              <div class="col-8 fw-medium">{{ result.crop }}</div>
+              <div class="col-4 text-muted" data-i18n="district_result">District</div>
+              <div class="col-8 fw-medium">{{ result.district }}</div>
+              <div class="col-4 text-muted" data-i18n="season_result">Season</div>
+              <div class="col-8 fw-medium">{{ result.season }}</div>
+              <div class="col-4 text-muted" data-i18n="model_result">Model</div>
+              <div class="col-8 fw-medium">{{ result.model[:48] }}</div>
+              <div class="col-4 text-muted" data-i18n="date_result">Date</div>
+              <div class="col-8 fw-medium">{{ result.date }}</div>
+            </div>
+            <div class="mt-3 d-flex gap-2">
+              <a class="btn btn-outline-success btn-sm flex-fill"
+                 href="/download?crop={{ result.crop }}&district={{ result.district }}&season={{ result.season }}&area={{ result.area }}&yield={{ result.yield }}&ci_lo={{ result.ci_lo }}&ci_hi={{ result.ci_hi }}&model={{ result.model }}&date={{ result.date }}"
+                 download data-i18n="download_btn">Download CSV</a>
+              <button class="btn btn-outline-success btn-sm" onclick="window.print()" title="Print report">&#128424;</button>
+            </div>
+          </div>
+          {% else %}
+          <div class="text-center text-muted py-5">
+            <span style="font-size:3rem;">&#127793;</span>
+            <p class="mt-2" data-i18n="no_result">Submit the form to see your prediction.</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      {% if shap_data and shap_data|length > 0 %}
+      <div class="card mt-4">
+        <div class="card-header"><span class="section-title" data-i18n="shap_header">SHAP Feature Importance</span></div>
+        <div class="card-body">
+          {% if shap_img %}
+          <img src="data:image/png;base64,{{ shap_img }}" alt="SHAP Beeswarm Bar Plot" class="img-fluid rounded mb-3">
+          {% endif %}
+          <div style="max-height:260px;overflow-y:auto;">
+            {% for s in shap_data[:10] %}
+            <div class="d-flex justify-content-between align-items-center mb-1 small">
+              <span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ s.name|clean_name }}</span>
+              <span class="ms-2 text-nowrap" style="width:55px;text-align:right;">{{ s.value }}</span>
+            </div>
+            <div class="progress mb-2" style="height:6px;">
+              {% set pct = (s.abs_value / shap_data[0].abs_value * 100) if shap_data[0].abs_value > 0 else 0 %}
+              <div class="progress-bar {% if s.value < 0 %}shap-neg{% else %}bg-success{% endif %}" style="width:{{ pct|round }}%;"></div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="col-lg-4">
+      {% if crops %}
+      <div class="card" id="quickFillSection">
+        <div class="card-header"><span class="section-title" data-i18n="quickfill_header">Quick Fill</span></div>
+        <div class="card-body small">
+          <p class="text-muted mb-2" data-i18n="quickfill_desc">Select a crop to auto-fill typical values:</p>
+          <select class="form-select mb-2" id="quickFill">
+            <option value="" data-i18n="quickfill_placeholder">— Auto-fill from crop —</option>
+            {% for c in crops %}
+            <option value="{{ c }}">{{ c }}</option>
+            {% endfor %}
+          </select>
+          <button class="btn btn-outline-success btn-sm w-100" id="quickFillBtn" data-i18n="quickfill_btn">Fill Defaults</button>
+        </div>
+      </div>
+      {% endif %}
+      <div class="card mt-4" id="howToSection">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span class="section-title" data-i18n="howto_header">How to Use</span>
+          <button class="btn btn-sm btn-outline-success py-0 px-2" type="button" data-bs-toggle="collapse" data-bs-target="#howToBody" aria-expanded="false">&#9660;</button>
+        </div>
+        <div class="card-body small collapse" id="howToBody">
+          <ol class="mb-0 ps-3">
+            <li class="mb-1" data-i18n="howto_step1">Select a <strong>crop</strong>, <strong>district</strong>, and <strong>season</strong></li>
+            <li class="mb-1" data-i18n="howto_step2">Enter field parameters (area, temperature, humidity, rainfall)</li>
+            <li class="mb-1" data-i18n="howto_step3">Choose a <strong>model</strong> (XGBoost or Stacking Ensemble)</li>
+            <li class="mb-1" data-i18n="howto_step4">Click <strong>"Predict Yield"</strong> to see results with SHAP explanations</li>
+            <li class="mb-0" data-i18n="howto_step5">Use <strong>"Clear All"</strong> to reset the form for a new prediction</li>
+          </ol>
+        </div>
+      </div>
+      <div class="card mt-4" id="historySection">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span class="section-title" data-i18n="history_header">Prediction History</span>
+          <button class="btn btn-sm btn-outline-danger py-0 px-2" id="clearHistoryBtn" title="Clear history" style="display:none;">&#10005;</button>
+        </div>
+        <div class="card-body small" id="historyBody">
+          <p class="text-muted mb-0" data-i18n="history_empty">No predictions yet.</p>
+          <div id="historyTableWrap" style="display:none;"></div>
+        </div>
+      </div>
+      <div class="card mt-4" id="aboutModelsSection">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span class="section-title" data-i18n="about_header">About the Models</span>
+          <button class="btn btn-sm btn-outline-success py-0 px-2" type="button" data-bs-toggle="collapse" data-bs-target="#aboutModelsBody" aria-expanded="false">&#9660;</button>
+        </div>
+        <div class="card-body small collapse" id="aboutModelsBody">
+          <p><strong>XGBoost:</strong> <span data-i18n="xgb_desc">Tuned gradient-boosted tree ensemble with AP Ratio. 150 features, optimised hyperparameters. RMSE {{ XGB_RMSE }} t/ha.</span></p>
+          <p><strong>Stacking Ensemble:</strong> <span data-i18n="stack_desc">Combines Random Forest, Gradient Boosting, XGBoost, and Ridge regression. Uses per-crop median AP Ratio. RMSE {{ STACK_RMSE }} t/ha.</span></p>
+          <p class="mb-0 text-muted" data-i18n="shap_footer">Both models explained with SHAP values showing feature contributions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+{% raw %}
+// ===== TRANSLATIONS =====
+var i18n = {
+  en: {
+    page_title: "Crop Yield Prediction — Bangladesh",
+    brand: "\u{1F331} YieldPredict",     home: "Home", prediction: "Prediction", about: "About", contact: "Contact", get_started: "Get Started",
+    heading: "Crop Yield Prediction",
+    subheading: "Enter field parameters and select a model to predict crop yield in Bangladesh.",
+    input_header: "Input Parameters", model_label: "Model", crop_label: "Crop",
+    select_placeholder: "\u2014 Select \u2014", district_label: "District",
+    season_label: "Season", area_label: "Area (ha)",
+    min_temp_label: "Min Temp (\u00b0C)", max_temp_label: "Max Temp (\u00b0C)",
+    avg_temp_label: "Avg Temp (\u00b0C)", min_rh_label: "Min RH (%)", max_rh_label: "Max RH (%)",
+    avg_humidity_label: "Avg Humidity (%)", rainfall_label: "Rainfall (mm)",
+    predict_btn: "Predict Yield",
+    clear_btn: "Clear All",
+    result_header: "Prediction Result", result_heading: "Crop Production Prediction",
+    expected_yield: "Expected Production", confidence: "Confidence",
+    confidence_high: "High", confidence_medium: "Medium", confidence_low: "Low",
+    top_factors: "Top Influencing Factors", total_production: "Total (tonnes)",
+    ci_text: "95% CI:", crop_result: "Crop", district_result: "District",
+    season_result: "Season", area_result: "Area", model_result: "Model",
+    date_result: "Date", download_btn: "Download CSV", no_result: "Submit the form to see your prediction.",
+    shap_header: "SHAP Feature Importance",
+    quickfill_header: "Quick Fill", quickfill_desc: "Select a crop to auto-fill typical values:",
+    quickfill_placeholder: "\u2014 Auto-fill from crop \u2014", quickfill_btn: "Fill Defaults",
+    about_header: "About the Models",
+    xgb_desc: "Gradient-boosted tree ensemble trained on SPAS data without AP Ratio. 149 features, 300 trees.",
+    stack_desc: "Combines Random Forest, Gradient Boosting, XGBoost, and Ridge regression. Uses per-crop median AP Ratio.",
+    shap_footer: "Both models explained with SHAP values showing feature contributions.",
+    spinner_title: "Predicting yield\u2026", spinner_sub: "Running models & computing SHAP values",
+    spinner_stage1: "Loading model\u2026", spinner_stage2: "Computing prediction\u2026", spinner_stage3: "Calculating SHAP values\u2026",
+    print_btn: "\u{1F4E8} Print",
+    history_header: "Prediction History", history_empty: "No predictions yet.", history_clear: "Clear",
+    howto_header: "How to Use",
+    howto_step1: "Select a <strong>crop</strong>, <strong>district</strong>, and <strong>season</strong>",
+    howto_step2: "Enter field parameters (area, temperature, humidity, rainfall)",
+    howto_step3: "Choose a <strong>model</strong> (XGBoost or Stacking Ensemble)",
+    howto_step4: "Click <strong>\u201cPredict Yield\u201d</strong> to see results with SHAP explanations",
+    howto_step5: "Use <strong>\u201cClear All\u201d</strong> to reset the form for a new prediction",
+    valid_ok: "Looks good", invalid_required: "This field is required",
+    invalid_area: "Must be > 0", invalid_num: "Invalid number",
+    invalid_range: "Must be 0\u2013100", invalid_temp: "Min cannot exceed Max",
+    invalid_neg: "Cannot be negative", invalid_rh_order: "Max RH below Min RH",
+    invalid_avg_rh: "Seems low vs Min RH",
+  },
+  bn: {
+    page_title: "\u09AB\u09B8\u09B2\u09C7\u09B0 \u09AB\u09B2\u09A8 \u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8 \u2014 \u09AC\u09BE\u0982\u09B2\u09BE\u09A6\u09C7\u09B6",
+    brand: "\u{1F331} \u09AB\u09B2\u09A8\u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8",
+    home: "\u09B9\u09CB\u09AE", prediction: "\u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8", about: "\u09B8\u09AE\u09CD\u09AA\u09B0\u09CD\u0995\u09C7", contact: "\u09AF\u09CB\u0997\u09BE\u09AF\u09CB\u0997", get_started: "\u09B6\u09C1\u09B0\u09C1 \u0995\u09B0\u09C1\u09A8",
+    heading: "\u09AB\u09B8\u09B2\u09C7\u09B0 \u09AB\u09B2\u09A8 \u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8",
+    subheading: "\u09AB\u09B2\u09A8 \u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8\u09C7\u09B0 \u099C\u09A8\u09CD\u09AF \u0995\u09CD\u09B7\u09C7\u09A4\u09CD\u09B0\u09C7\u09B0 \u09AA\u09B0\u09BE\u09AE\u09BF\u09A4\u09BF \u09AA\u09CD\u09B0\u09AC\u09C7\u09B6 \u0995\u09B0\u09C1\u09A8 \u0993 \u098F\u0995\u099F\u09BF \u09AE\u09A1\u09C7\u09B2 \u09A8\u09BF\u09B0\u09CD\u09AC\u09BE\u099A\u09A8 \u0995\u09B0\u09C1\u09A8\u0964",
+    input_header: "\u0987\u09A8\u09AA\u09C1\u099F \u09AA\u09BE\u09B0\u09BE\u09AE\u09BF\u09A4\u09BF",
+    model_label: "\u09AE\u09A1\u09C7\u09B2", crop_label: "\u09AB\u09B8\u09B2",
+    select_placeholder: "\u2014 \u09A8\u09BF\u09B0\u09CD\u09AC\u09BE\u099A\u09A8 \u0995\u09B0\u09C1\u09A8 \u2014",
+    district_label: "\u099C\u09C7\u09B2\u09BE", season_label: "\u09AE\u09CC\u09B8\u09C1\u09AE",
+    area_label: "\u0986\u09AF\u09BC\u09A4\u09A8 (ha)",
+    min_temp_label: "\u09B8\u09B0\u09CD\u09AC\u09A8\u09BF\u09AE\u09CD\u09A8 \u09A4\u09BE\u09AA (\u00b0C)",
+    max_temp_label: "\u09B8\u09B0\u09CD\u09AC\u09CB\u099A\u09CD\u099A \u09A4\u09BE\u09AA (\u00b0C)",
+    avg_temp_label: "\u0997\u09A1\u09BC \u09A4\u09BE\u09AA (\u00b0C)",
+    min_rh_label: "\u09B8\u09B0\u09CD\u09AC\u09A8\u09BF\u09AE\u09CD\u09A8 RH (%)",
+    max_rh_label: "\u09B8\u09B0\u09CD\u09AC\u09CB\u099A\u09CD\u099A RH (%)",
+    avg_humidity_label: "\u0997\u09A1\u09BC \u0986\u09B0\u09CD\u09A6\u09CD\u09B0\u09A4\u09BE (%)",
+    rainfall_label: "\u09AC\u09C3\u09B7\u09CD\u099F\u09BF\u09AA\u09BE\u09A4 (mm)",
+    predict_btn: "\u09AB\u09B2\u09A8 \u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8 \u0995\u09B0\u09C1\u09A8",
+    clear_btn: "\u09B8\u09AC \u09AE\u09C1\u099B\u09C1\u09A8",
+    result_header: "\u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8\u09C7\u09B0 \u09AB\u09B2\u09BE\u09AB\u09B2",
+    result_heading: "\u09AB\u09B8\u09B2\u09C7\u09B0 \u09AB\u09B2\u09A8 \u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8",
+    expected_yield: "\u09AA\u09CD\u09B0\u09A4\u09CD\u09AF\u09BE\u09B6\u09BF\u09A4 \u09AB\u09B2\u09A8",
+    confidence: "\u0986\u09A4\u09CD\u09AE\u09AC\u09BF\u09B6\u09CD\u09AC\u09BE\u09B8",
+    confidence_high: "\u0989\u099A\u09CD\u099A",
+    confidence_medium: "\u09AE\u09BE\u099D\u09BE\u09B0\u09BF",
+    confidence_low: "\u09A8\u09BF\u09AE\u09CD\u09A8",
+    top_factors: "\u09AA\u09CD\u09B0\u09A7\u09BE\u09A8 \u09AA\u09CD\u09B0\u09AD\u09BE\u09AC\u0995",
+    total_production: "\u09AE\u09CB\u099F (\u099F\u09A8)",
+    ci_text: "95% \u0986\u09A4\u09CD\u09AE\u09AC\u09BF\u09B6\u09CD\u09AC\u09BE\u09B8 \u09AC\u09CD\u09AF\u09AC\u09A7\u09BE\u09A8:",
+    crop_result: "\u09AB\u09B8\u09B2", district_result: "\u099C\u09C7\u09B2\u09BE",
+    season_result: "\u09AE\u09CC\u09B8\u09C1\u09AE", area_result: "\u0986\u09AF\u09BC\u09A4\u09A8",
+    model_result: "\u09AE\u09A1\u09C7\u09B2", date_result: "\u09A4\u09BE\u09B0\u09BF\u0996",
+    download_btn: "CSV \u09A1\u09BE\u0989\u09A8\u09B2\u09CB\u09A1",
+    no_result: "\u0986\u09AA\u09A8\u09BE\u09B0 \u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8 \u09A6\u09C7\u0996\u09A4\u09C7 \u09AB\u09B0\u09CD\u09AE \u099C\u09AE\u09BE \u09A6\u09BF\u09A8\u0964",
+    shap_header: "SHAP \u09AC\u09C8\u09B6\u09BF\u09B7\u09CD\u099F\u09CD\u09AF\u09C7\u09B0 \u0997\u09C1\u09B0\u09C1\u09A4\u09CD\u09AC",
+    quickfill_header: "\u09A6\u09CD\u09B0\u09C1\u09A4 \u09AA\u09C2\u09B0\u09A3",
+    quickfill_desc: "\u09B8\u09BE\u09A7\u09BE\u09B0\u09A3 \u09AE\u09BE\u09A8 \u09B8\u09CD\u09AC\u09DF\u0982\u0995\u09CD\u09B0\u09BF\u09DF\u09AD\u09BE\u09AC\u09C7 \u09AA\u09C2\u09B0\u09A3\u09C7\u09B0 \u099C\u09A8\u09CD\u09AF \u098F\u0995\u099F\u09BF \u09AB\u09B8\u09B2 \u09A8\u09BF\u09B0\u09CD\u09AC\u09BE\u099A\u09A8 \u0995\u09B0\u09C1\u09A8:",
+    quickfill_placeholder: "\u2014 \u09AB\u09B8\u09B2 \u09A5\u09C7\u0995\u09C7 \u09B8\u09CD\u09AC\u09DF\u0982\u0995\u09CD\u09B0\u09BF\u09DF\u09AD\u09BE\u09AC\u09C7 \u09AA\u09C2\u09B0\u09A3 \u0995\u09B0\u09C1\u09A8 \u2014",
+    quickfill_btn: "\u09A1\u09BF\u09AB\u09B2\u09CD\u099F \u09AA\u09C2\u09B0\u09A3 \u0995\u09B0\u09C1\u09A8",
+    about_header: "\u09AE\u09A1\u09C7\u09B2 \u09B8\u09AE\u09CD\u09AA\u09B0\u09CD\u0995\u09C7",
+    xgb_desc: "AP \u0985\u09A8\u09C1\u09AA\u09BE\u09A4\u09B8\u09B9 \u099F\u09BF\u0989\u09A8\u09C7\u09A1 \u0997\u09CD\u09B0\u09CD\u09AF\u09BE\u09A1\u09BF\u09DF\u09C7\u09A8\u09CD\u099F-\u09AC\u09C2\u09B8\u09CD\u099F\u09C7\u09A1 \u099F\u09CD\u09B0\u09BF \u098F\u09A8\u09B8\u09C7\u09AE\u09CD\u09AC\u09B2\u0964 150 \u09AC\u09C8\u09B6\u09BF\u09B7\u09CD\u099F\u09CD\u09AF, \u0985\u09AA\u09CD\u099F\u09BF\u09AE\u09BE\u0987\u099C\u09A1 \u09B9\u09BE\u0987\u09AA\u09BE\u09B0\u09AA\u09BE\u09B0\u09BE\u09AE\u09BF\u099F\u09BE\u09B0\u0964",
+    stack_desc: "RF, GBR, XGBoost \u0993 Ridge \u09B0\u09BF\u0997\u09CD\u09B0\u09C7\u09B6\u09A8\u09C7\u09B0 \u09B8\u09AE\u09A8\u09CD\u09AC\u09DF\u0964 \u09AA\u09CD\u09B0\u09A4\u09BF \u09AB\u09B8\u09B2\u09C7\u09B0 \u09AE\u09BE\u09A7\u09CD\u09AF\u09AE\u09BF\u0995 AP \u0985\u09A8\u09C1\u09AA\u09BE\u09A4 \u09AC\u09CD\u09AF\u09AC\u09B9\u09BE\u09B0 \u0995\u09B0\u09C7\u0964",
+    shap_footer: "\u0989\u09AD\u09DF \u09AE\u09A1\u09C7\u09B2\u09C7\u09B0 \u09AC\u09CD\u09AF\u09BE\u0996\u09CD\u09AF\u09BE SHAP \u09AE\u09BE\u09A8 \u09A6\u09CD\u09AC\u09BE\u09B0\u09BE \u09AC\u09CD\u09AF\u09BE\u0996\u09CD\u09AF\u09BE \u0995\u09B0\u09BE \u09B9\u09DF\u09C7\u099B\u09C7\u0964",
+    spinner_title: "\u09AB\u09B2\u09A8 \u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8 \u0995\u09B0\u09BE \u09B9\u099A\u09CD\u099B\u09C7\u2026",
+    spinner_sub: "\u09AE\u09A1\u09C7\u09B2 \u099A\u09BE\u09B2\u09BE\u09A8\u09CB \u0993 SHAP \u09AE\u09BE\u09A8 \u0997\u09A3\u09A8\u09BE \u0995\u09B0\u09BE \u09B9\u099A\u09CD\u099B\u09C7",
+    spinner_stage1: "\u09AE\u09A1\u09C7\u09B2 \u09B2\u09CB\u09A1 \u0995\u09B0\u09BE \u09B9\u099A\u09CD\u099B\u09C7\u2026",
+    spinner_stage2: "\u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8 \u0997\u09A3\u09A8\u09BE \u0995\u09B0\u09BE \u09B9\u099A\u09CD\u099B\u09C7\u2026",
+    spinner_stage3: "SHAP \u09AE\u09BE\u09A8 \u0997\u09A3\u09A8\u09BE \u0995\u09B0\u09BE \u09B9\u099A\u09CD\u099B\u09C7\u2026",
+    history_header: "\u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8 \u0987\u09A4\u09BF\u09B9\u09BE\u09B8",
+    history_empty: "\u098F\u0996\u09A8\u09CB \u0995\u09CB\u09A8\u09CB \u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8 \u09A8\u09C7\u0987\u0964",
+    history_clear: "\u09AE\u09C1\u099B\u09C1\u09A8",
+    howto_header: "\u09AC\u09CD\u09AF\u09AC\u09B9\u09BE\u09B0\u09C7\u09B0 \u09A8\u09BF\u09DF\u09AE",
+    howto_step1: "\u098F\u0995\u099F\u09BF <strong>\u09AB\u09B8\u09B2</strong>, <strong>\u099C\u09C7\u09B2\u09BE</strong> \u098F\u09AC\u0982 <strong>\u09AE\u09CC\u09B8\u09C1\u09AE</strong> \u09A8\u09BF\u09B0\u09CD\u09AC\u09BE\u099A\u09A8 \u0995\u09B0\u09C1\u09A8",
+    howto_step2: "\u0995\u09CD\u09B7\u09C7\u09A4\u09CD\u09B0\u09C7\u09B0 \u09AA\u09B0\u09BE\u09AE\u09BF\u09A4\u09BF \u09B2\u09BF\u0996\u09C1\u09A8 (\u0986\u09AF\u09BC\u09A4\u09A8, \u09A4\u09BE\u09AA, \u0986\u09B0\u09CD\u09A6\u09CD\u09B0\u09A4\u09BE, \u09AC\u09C3\u09B7\u09CD\u099F\u09BF\u09AA\u09BE\u09A4)",
+    howto_step3: "\u098F\u0995\u099F\u09BF <strong>\u09AE\u09A1\u09C7\u09B2</strong> \u09A8\u09BF\u09B0\u09CD\u09AC\u09BE\u099A\u09A8 \u0995\u09B0\u09C1\u09A8 (XGBoost \u09AC\u09BE Stacking Ensemble)",
+    howto_step4: "\u09AB\u09B2\u09BE\u09AB\u09B2 \u098F\u09AC\u0982 SHAP \u09AC\u09CD\u09AF\u09BE\u0996\u09CD\u09AF\u09BE \u09A6\u09C7\u0996\u09A4\u09C7 <strong>\u201c\u09AB\u09B2\u09A8 \u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8 \u0995\u09B0\u09C1\u09A8\u201d</strong> \u099F\u09BF\u09AA\u09C1\u09A8",
+    howto_step5: "\u09A8\u09A4\u09C1\u09A8 \u09AA\u09C2\u09B0\u09CD\u09AC\u09BE\u09AD\u09BE\u09B8\u09C7\u09B0 \u099C\u09A8\u09CD\u09AF \u09AB\u09B0\u09CD\u09AE \u09B0\u09BF\u09B8\u09C7\u099F \u0995\u09B0\u09A4\u09C7 <strong>\u201c\u09B8\u09AC \u09AE\u09C1\u099B\u09C1\u09A8\u201d</strong> \u09AC\u09CD\u09AF\u09AC\u09B9\u09BE\u09B0 \u0995\u09B0\u09C1\u09A8",
+    print_btn: "\u{1F4E8} \u09AE\u09C1\u09A6\u09CD\u09B0\u09A3",
+    valid_ok: "\u09A0\u09BF\u0995 \u0986\u099B\u09C7",
+    invalid_required: "\u098F\u0987 \u0998\u09B0\u099F\u09BF \u09AA\u09CD\u09B0\u09DF\u09CB\u099C\u09A8",
+    invalid_area: "0 \u098F\u09B0 \u099A\u09C7\u09DF\u09C7 \u09AC\u09A1\u09BC \u09B9\u09A4\u09C7 \u09B9\u09AC\u09C7",
+    invalid_num: "\u0985\u09AC\u09C8\u09A7 \u09B8\u0982\u0996\u09CD\u09AF\u09BE",
+    invalid_range: "0\u2013100 \u09B9\u09A4\u09C7 \u09B9\u09AC\u09C7",
+    invalid_temp: "\u09B8\u09B0\u09CD\u09AC\u09A8\u09BF\u09AE\u09CD\u09A8 \u09B8\u09B0\u09CD\u09AC\u09CB\u099A\u09CD\u099A \u09B9\u09A4\u09C7 \u09AA\u09BE\u09B0\u09C7 \u09A8\u09BE",
+    invalid_neg: "\u09A8\u09C7\u0997\u09C7\u099F\u09BF\u09AD \u09B9\u09A4\u09C7 \u09AA\u09BE\u09B0\u09C7 \u09A8\u09BE",
+    invalid_rh_order: "\u09B8\u09B0\u09CD\u09AC\u09CB\u099A\u09CD\u099A RH \u09B8\u09B0\u09CD\u09AC\u09A8\u09BF\u09AE\u09CD\u09A8 RH \u098F\u09B0 \u099A\u09C7\u09DF\u09C7 \u0995\u09AE",
+    invalid_avg_rh: "\u09B8\u09B0\u09CD\u09AC\u09A8\u09BF\u09AE\u09CD\u09A8 RH \u098F\u09B0 \u09A4\u09C1\u09B2\u09A8\u09BE\u09DF \u0995\u09AE",
+  }
+};
+
+var currentLang = localStorage.getItem("lang") || "en";
+
+function applyLang(lang) {
+  currentLang = lang;
+  localStorage.setItem("lang", lang);
+  var t = i18n[lang] || i18n.en;
+  document.documentElement.lang = lang === "bn" ? "bn" : "en";
+  document.querySelectorAll("[data-i18n]").forEach(function(el) {
+    var key = el.getAttribute("data-i18n");
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+  var lBtn = document.getElementById("langToggleBtn");
+  if (lBtn) lBtn.title = lang === "bn" ? "English" : "\u09AC\u09BE\u0982\u09B2\u09BE";
+}
+
+applyLang(currentLang);
+
+var langBtn = document.getElementById("langToggleBtn");
+if (langBtn) langBtn.addEventListener("click", function() {
+  applyLang(currentLang === "en" ? "bn" : "en");
+});
+
+// ===== THEME TOGGLE =====
+(function() {
+  var theme = localStorage.getItem("theme") || "light";
+  document.documentElement.setAttribute("data-theme", theme);
+  var btn = document.getElementById("themeToggleBtn");
+  function updateIcon(t) { btn.innerHTML = t === "dark" ? "\u{1F31E}" : "\u{1F319}"; }
+  updateIcon(theme);
+  btn.addEventListener("click", function() {
+    var cur = document.documentElement.getAttribute("data-theme");
+    var next = cur === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+    updateIcon(next);
+  });
+})();
+
+// ===== REAL-TIME VALIDATION =====
+(function() {
+  var rules = {
+    area: { test: function(v) { var n = parseFloat(v); return v.trim() !== "" && !isNaN(n) && n > 0 && n <= 1e6; }, msgKey: "invalid_area" },
+    avg_temp: { test: function(v) { return v.trim() !== "" && !isNaN(parseFloat(v)); }, msgKey: "invalid_num" },
+    max_temp: { test: function(v) { return v.trim() !== "" && !isNaN(parseFloat(v)); }, msgKey: "invalid_num" },
+    min_temp: { test: function(v) { return v.trim() !== "" && !isNaN(parseFloat(v)); }, msgKey: "invalid_num" },
+    avg_humidity: { test: function(v) { var n = parseFloat(v); return v.trim() !== "" && !isNaN(n) && n >= 0 && n <= 100; }, msgKey: "invalid_range" },
+    max_rh: { test: function(v) { var n = parseFloat(v); return v.trim() !== "" && !isNaN(n) && n >= 0 && n <= 100; }, msgKey: "invalid_range" },
+    min_rh: { test: function(v) { var n = parseFloat(v); return v.trim() !== "" && !isNaN(n) && n >= 0 && n <= 100; }, msgKey: "invalid_range" },
+    rainfall: { test: function(v) { var n = parseFloat(v); return v.trim() !== "" && !isNaN(n) && n >= 0; }, msgKey: "invalid_neg" },
+    crop: { test: function(v) { return v !== ""; }, msgKey: "invalid_required" },
+    district: { test: function(v) { return v !== ""; }, msgKey: "invalid_required" },
+    season: { test: function(v) { return v !== ""; }, msgKey: "invalid_required" },
+  };
+
+  function getParent(el) {
+    return el.closest(".mb-2") || el.parentElement;
+  }
+
+  function validateSingle(el) {
+    var name = el.name;
+    if (!name || !rules[name]) return true;
+    var rule = rules[name];
+    var val = el.value;
+    var ok = rule.test(val);
+    var parent = getParent(el);
+    var invalidFeedback = parent.querySelector(".invalid-feedback");
+    var validFeedback = parent.querySelector(".valid-feedback");
+    el.classList.toggle("is-valid", ok);
+    el.classList.toggle("is-invalid", !ok);
+    if (invalidFeedback) invalidFeedback.textContent = ok ? "" : (i18n[currentLang][rule.msgKey] || rule.msgKey);
+    if (validFeedback) validFeedback.textContent = ok ? (i18n[currentLang].valid_ok || "Looks good") : "";
+    return ok;
+  }
+
+  function validateCrossField() {
+    var minT = document.querySelector("[name=min_temp]");
+    var maxT = document.querySelector("[name=max_temp]");
+    var minR = document.querySelector("[name=min_rh]");
+    var maxR = document.querySelector("[name=max_rh]");
+    var avgH = document.querySelector("[name=avg_humidity]");
+
+    if (minT && maxT && minT.value.trim() && maxT.value.trim()) {
+      var mn = parseFloat(minT.value), mx = parseFloat(maxT.value);
+      var ok = !isNaN(mn) && !isNaN(mx) && mn <= mx;
+      var p1 = getParent(minT), p2 = getParent(maxT);
+      var f1 = p1.querySelector(".invalid-feedback"), f2 = p2.querySelector(".invalid-feedback");
+      if (!ok && !isNaN(mn) && !isNaN(mx)) {
+        if (f1) f1.textContent = i18n[currentLang].invalid_temp || "Min cannot exceed Max";
+        if (f2) f2.textContent = i18n[currentLang].invalid_temp || "Min cannot exceed Max";
+        minT.classList.add("is-invalid"); maxT.classList.add("is-invalid");
+      } else if (!isNaN(mn) && !isNaN(mx)) {
+        if (f1 && !minT.classList.contains("is-invalid-other")) f1.textContent = "";
+        if (f2 && !maxT.classList.contains("is-invalid-other")) f2.textContent = "";
+      }
+    }
+
+    if (minR && maxR && minR.value.trim() && maxR.value.trim()) {
+      var mnR = parseFloat(minR.value), mxR = parseFloat(maxR.value);
+      if (!isNaN(mnR) && !isNaN(mxR) && mxR < mnR) {
+        var p3 = getParent(minR), p4 = getParent(maxR);
+        var f3 = p3.querySelector(".invalid-feedback"), f4 = p4.querySelector(".invalid-feedback");
+        if (f4) f4.textContent = i18n[currentLang].invalid_rh_order || "Max RH below Min RH";
+        maxR.classList.add("is-invalid");
+      }
+    }
+
+    if (avgH && minR && avgH.value.trim() && minR.value.trim()) {
+      var aH = parseFloat(avgH.value), mnRH = parseFloat(minR.value);
+      if (!isNaN(aH) && !isNaN(mnRH) && aH < mnRH) {
+        var p5 = getParent(avgH);
+        var f5 = p5.querySelector(".invalid-feedback");
+        if (f5) f5.textContent = i18n[currentLang].invalid_avg_rh || "Seems low vs Min RH";
+        avgH.classList.add("is-invalid");
+      }
+    }
+  }
+
+  var inputs = document.querySelectorAll("[name].form-control, [name].form-select");
+  inputs.forEach(function(el) {
+    el.addEventListener("input", function() { validateSingle(el); setTimeout(validateCrossField, 50); });
+    el.addEventListener("change", function() { validateSingle(el); setTimeout(validateCrossField, 50); });
+  });
+
+  // Validate all on page load if form was previously submitted
+  var formDataExists = {% endraw %}{{ 'true' if form_data and form_data.get('area') else 'false' }}{% raw %};
+  if (formDataExists) {
+    inputs.forEach(function(el) { validateSingle(el); });
+    validateCrossField();
+  }
+})();
+
+// ===== QUICK FILL =====
+(function() {
+  var defaults = {% endraw %}{{ defaults|tojson|safe }}{% raw %};
+  var cropSelect = document.getElementById("cropSelect");
+  var districtSelect = document.getElementById("districtSelect");
+  var seasonSelect = document.getElementById("seasonSelect");
+  var quickFillSelect = document.getElementById("quickFill");
+  var quickFillBtn = document.getElementById("quickFillBtn");
+
+  function fillFromCrop(crop) {
+    var d = defaults[crop];
+    if (!d) return;
+    if (districtSelect) {
+      for (var i = 0; i < districtSelect.options.length; i++)
+        districtSelect.options[i].selected = districtSelect.options[i].value === d.district;
+    }
+    if (seasonSelect) {
+      for (var i = 0; i < seasonSelect.options.length; i++)
+        seasonSelect.options[i].selected = seasonSelect.options[i].value === d.season;
+    }
+    ["area","avg_temp","avg_humidity","max_temp","min_temp","max_rh","min_rh","rainfall"].forEach(function(f) {
+      var el = document.querySelector("[name=\"" + f + "\"]");
+      if (el) el.value = d[f] || "";
+    });
+  }
+
+  if (cropSelect) {
+    cropSelect.addEventListener("change", function() { fillFromCrop(this.value); });
+  }
+
+  if (quickFillBtn && quickFillSelect) {
+    quickFillBtn.addEventListener("click", function() {
+      var crop = quickFillSelect.value;
+      if (crop) { cropSelect.value = crop; cropSelect.dispatchEvent(new Event("change")); }
+    });
+  }
+})();
+
+// ===== LOADING SPINNER + PROGRESS STAGES =====
+(function() {
+  var form = document.getElementById("predForm");
+  var overlay = document.getElementById("loadingOverlay");
+  var btn = document.getElementById("predictBtn");
+  var stageEl = document.getElementById("spinnerStage");
+  if (form) {
+    form.addEventListener("submit", function(e) {
+      var crop = document.getElementById("cropSelect");
+      var district = document.getElementById("districtSelect");
+      var season = document.getElementById("seasonSelect");
+      var area = document.getElementById("areaInput");
+      if (!crop.value || !district.value || !season.value || !area.value || parseFloat(area.value) <= 0) return;
+      overlay.classList.add("active");
+      if (btn) btn.classList.add("is-loading");
+      if (stageEl) {
+        var stages = ["spinner_stage1", "spinner_stage2", "spinner_stage3"];
+        var idx = 0;
+        stageEl.textContent = i18n[currentLang][stages[0]] || "Loading model\u2026";
+        var iv = setInterval(function() {
+          idx = (idx + 1) % stages.length;
+          stageEl.textContent = i18n[currentLang][stages[idx]] || "Working\u2026";
+          if (!overlay.classList.contains("active")) clearInterval(iv);
+        }, 3000);
+      }
+    });
+  }
+})();
+
+// ===== CLEAR ALL =====
+document.getElementById("clearBtn").addEventListener("click", function() {
+  document.querySelectorAll("#predForm input, #predForm select").forEach(function(el) {
+    if (el.tagName === "SELECT") { el.selectedIndex = 0; }
+    else { el.value = ""; }
+    el.classList.remove("is-valid", "is-invalid");
+    var fb = el.parentElement.querySelector(".invalid-feedback");
+    if (fb) fb.textContent = "";
+    var vb = el.parentElement.querySelector(".valid-feedback");
+    if (vb) vb.textContent = "";
+  });
+  window.location.href = "/prediction";
+});
+
+// ===== SMOOTH SCROLL TO RESULT =====
+(function() {
+  var resultBox = document.querySelector(".result-modern");
+  if (resultBox) {
+    setTimeout(function() { resultBox.scrollIntoView({ behavior: "smooth", block: "center" }); }, 100);
+  }
+})();
+
+// ===== COUNT-UP ANIMATION =====
+(function() {
+  var el = document.querySelector(".result-modern .result-value");
+  if (!el) return;
+  var textNode = el.childNodes[0];
+  if (!textNode) return;
+  var target = parseFloat(textNode.textContent);
+  if (isNaN(target)) return;
+  var duration = 800, startTime = null;
+  function step(ts) {
+    if (!startTime) startTime = ts;
+    var pct = Math.min((ts - startTime) / duration, 1);
+    var eased = 1 - Math.pow(1 - pct, 3);
+    textNode.textContent = (target * eased).toFixed(2);
+    if (pct < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+})();
+
+// ===== PREDICTION HISTORY =====
+(function() {
+  var KEY = "pred_history";
+  function getHistory() {
+    try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch(e) { return []; }
+  }
+  function saveEntry(entry) {
+    var h = getHistory();
+    h.unshift(entry);
+    if (h.length > 20) h = h.slice(0, 20);
+    localStorage.setItem(KEY, JSON.stringify(h));
+  }
+  function renderHistory() {
+    var h = getHistory();
+    var wrap = document.getElementById("historyTableWrap");
+    var empty = document.querySelector("#historyBody > p");
+    var clearBtn = document.getElementById("clearHistoryBtn");
+    if (!wrap) return;
+    if (h.length === 0) {
+      if (empty) empty.style.display = "";
+      wrap.style.display = "none";
+      if (clearBtn) clearBtn.style.display = "none";
+      return;
+    }
+    if (empty) empty.style.display = "none";
+    wrap.style.display = "";
+    if (clearBtn) clearBtn.style.display = "";
+    var html = '<div style="max-height:200px;overflow-y:auto;"><table class="table table-sm table-borderless mb-0"><tbody>';
+    h.forEach(function(e) {
+      html += '<tr><td class="ps-0 py-1">' + (e.crop || "?") + '</td><td class="text-end py-1">' + (e.yield || "?") + ' t/ha</td></tr>';
+    });
+    html += '</tbody></table></div>';
+    wrap.innerHTML = html;
+  }
+  // Save current result if present
+  var resultEl = document.querySelector(".result-modern");
+  if (resultEl) {
+    var yieldTxt = "";
+    var yEl = document.querySelector(".result-modern .result-value");
+    if (yEl) yieldTxt = yEl.childNodes[0] ? yEl.childNodes[0].textContent.trim() : "";
+    var cropTxt = "";
+    document.querySelectorAll(".result-modern .row .fw-medium").forEach(function(el) {
+      var label = el.previousElementSibling;
+      if (label && label.textContent.trim().toLowerCase() === "crop") cropTxt = el.textContent.trim();
+    });
+    if (yieldTxt && cropTxt) {
+      saveEntry({ crop: cropTxt, yield: yieldTxt, date: new Date().toLocaleDateString() });
+    }
+  }
+  renderHistory();
+  var clearBtn = document.getElementById("clearHistoryBtn");
+  if (clearBtn) {
+    clearBtn.addEventListener("click", function() {
+      localStorage.removeItem(KEY);
+      renderHistory();
+    });
+  }
+})();
+
+// ===== CROP DEFAULTS CACHING (offline Quick Fill) =====
+(function() {
+  var defaults = {% endraw %}{{ defaults|tojson|safe }}{% raw %};
+  try {
+    var cached = localStorage.getItem("crop_defaults");
+    if (!cached) localStorage.setItem("crop_defaults", JSON.stringify(defaults));
+  } catch(e) {}
+  // On Quick Fill, use cached defaults as fallback
+  var qfBtn = document.getElementById("quickFillBtn");
+  var qfSelect = document.getElementById("quickFill");
+  var cropSelect = document.getElementById("cropSelect");
+  if (qfBtn && qfSelect && cropSelect) {
+    var origHandler = qfBtn._listeners ? true : false;
+    qfBtn.addEventListener("click", function() {
+      var crop = qfSelect.value;
+      if (!crop) return;
+      cropSelect.value = crop;
+      cropSelect.dispatchEvent(new Event("change"));
+    });
+  }
+})();
+
+// ===== INPUT SANITATION — EXTREME VALUE WARNINGS =====
+(function() {
+  var warnings = {
+    rainfall: { max: 500, msg: "Very high rainfall (\u2265500mm) \u2014 verify value" },
+    avg_temp: { max: 45, msg: "Avg temp very high (\u226545\u00b0C) \u2014 verify" },
+    area: { max: 100000, msg: "Very large area (\u2265100k ha) \u2014 verify" },
+  };
+  Object.keys(warnings).forEach(function(name) {
+    var el = document.querySelector("[name=\"" + name + "\"]");
+    if (!el) return;
+    el.addEventListener("input", function() {
+      var val = parseFloat(this.value);
+      var w = warnings[name];
+      var parent = el.closest(".mb-2") || el.parentElement;
+      var existing = parent.querySelector(".extreme-warning");
+      if (!isNaN(val) && val >= w.max) {
+        if (!existing) {
+          var warn = document.createElement("div");
+          warn.className = "extreme-warning small text-warning mt-1";
+          warn.textContent = w.msg;
+          parent.appendChild(warn);
+        }
+      } else {
+        if (existing) existing.remove();
+      }
+    });
+  });
+})();
+{% endraw %}
+</script>
+</body>
+</html>
