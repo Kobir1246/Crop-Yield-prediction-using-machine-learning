@@ -21,7 +21,7 @@ A machine learning-based web application for predicting crop yield (tonnes per h
 
 ## Overview
 
-This project predicts crop yield for **74 crop varieties** across all **64 districts** of Bangladesh using three agricultural seasons of data. It evaluates 8+ regression models, with a **Tuned XGBoost** regressor achieving the best performance (R² = 0.91 on the cleaned dataset). The trained model is served through an interactive Flask web application with real-time prediction, SHAP-based feature explanations, Bengali/English bilingual support, and dark mode.
+This project predicts crop yield for **74 crop varieties** across all **64 districts** of Bangladesh using three agricultural seasons of data. It evaluates 8+ regression models, with a **Tuned XGBoost** regressor achieving the best performance (R² = 0.93 on the cleaned dataset). The trained model is served through an interactive Flask web application with real-time prediction, SHAP-based feature explanations, Bengali/English bilingual support, and dark mode.
 
 ## Features
 
