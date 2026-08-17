@@ -2,7 +2,7 @@
 
 A machine learning-based web application for predicting crop yield (tonnes per hectare) across Bangladesh using agricultural, climatic, and geographical data. Built with Flask, XGBoost, and SHAP explainability.
 
-![Methodology](images/methodology_diagram.png)
+![Methodology](images/methodology45.png)
 
 ## Table of Contents
 
