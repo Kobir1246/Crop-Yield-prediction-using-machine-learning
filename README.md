@@ -25,7 +25,7 @@ This project predicts crop yield for **74 crop varieties** across all **64 distr
 
 ## Features
 
-- **Dual Model Support** — Choose between Tuned XGBoost (RMSE 1.54 t/ha) and Stacking Ensemble (RF + GBR + XGBoost + Ridge)
+- **Dual Model Support** — Choose between Tuned XGBoost (R² = 0.836, RMSE = 2.113 t/ha) and Stacking Ensemble (RF + GBR + XGBoost + Ridge)
 - **SHAP Explanations** — Every prediction comes with feature importance bars and a beeswarm plot
 - **74 Crops, 64 Districts** — Coverage across all major crops and districts of Bangladesh
 - **Bilingual Interface** — Full Bengali (বাংলা) and English toggle
