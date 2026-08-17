@@ -37,7 +37,7 @@ This project predicts crop yield for **74 crop varieties** across all **64 distr
 
 ## System Architecture
 
-![Data Flow Diagram](images/dfd_diagram.png)
+![System Architecture](images/system_architecture.png)
 
 The system follows a standard ML web app pipeline:
 
