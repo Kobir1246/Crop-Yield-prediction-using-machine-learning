@@ -24,7 +24,7 @@ main3_portable_rich.pkl
 main3_portable_weather.pkl
 stack_top5_model.pkl
 
-# Result CSVs (generated output)
+# Result CSVs (generated output, except images/ dir)
 ablation_ap_ratio.csv
 agri_bangla_results.csv
 cv_comparison.csv
@@ -37,8 +37,11 @@ model_comparison.csv
 per_crop_india_validation.csv
 summary_statistics.csv
 
-# All plot images
+# All plot images (except images/ dir used in README)
 *.png
+!images/
+!images/*.png
+!images/*.csv
 
 # Documentation / presentations
 *.pdf
